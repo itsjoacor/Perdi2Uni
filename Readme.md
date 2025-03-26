@@ -1,0 +1,4 @@
+WIP - INICIAL DRAFT 
+IDEA - Perdi2 UNQ 
+Construccion: REACT 
+JAVA - SQL? - CLOUD?
