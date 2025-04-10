@@ -32,5 +32,4 @@ public class AcademicoController {
             return null;
         }
     }
-
 }
