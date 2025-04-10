@@ -24,7 +24,6 @@ const Login = () => {
       const response = await axios.post('http://localhost:8080/perdi2enlauni/login', formData);
       if (response.data === '') {
         alert('Credenciales incorrectas');
-        return;
       } else {
         alert('Hola ' + response.data + '!');
         localStorage.setItem('userName', response.data);
@@ -38,56 +37,58 @@ const Login = () => {
 
   return (
     <div
-      className="min-h-screen bg-cover bg-center flex flex-col items-center justify-center"
-      style={{ backgroundImage: `url(${fondoLogin})`
-      }}
+      className="min-h-screen bg-cover bg-center flex items-center justify-center"
+      style={{ backgroundImage: `url(${fondoLogin})` }}
     >
-      <h1 className="text-6xl font-extrabold text-white shadow-x1 mb-10 font-[calibri] bg-black bg-opacity-50 px-6 py-2 rounded-lg">
-        Perdi2EnLaUni
-      </h1>
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white bg-opacity-80 p-8 rounded-lg shadow-lg flex flex-col gap-4 w-80"
-      >
-        <input
-          type="email"
-          name="correo"
-          placeholder="Correo electrónico"
-          value={formData.correo}
-          onChange={handleChange}
-          required
-          className="p-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
-        />
-        <input
-          type="password"
-          name="contrasenia"
-          placeholder="Contraseña"
-          value={formData.contrasenia}
-          onChange={handleChange}
-          required
-          className="p-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
-        />
-        <button
-          type="submit"
-          className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-200"
-        >
-          Iniciar Sesión
-        </button>
-        <button
-          type="button"
-          onClick={() => navigate('/recuperar')}
-          className="text-sm text-blue-600 hover:underline"
-        >
-          Recuperar Contraseña
-        </button>
-        <button
-          type="button"
-          onClick={() => navigate('/registro')}
-          className="text-sm text-blue-600 hover:underline"
-        >
-          Registrarse
-        </button>
-      </form>
+      <div className="bg-white bg-opacity-70 backdrop-blur-md p-10 rounded-xl shadow-xl w-80 flex flex-col items-center">
+        <h1 className="text-4xl font-bold text-gray-900 mb-8 text-center">
+          <span className="bg-black bg-opacity-50 text-white px-3 py-1 rounded">
+            Perdi2EnLaUni
+          </span>
+        </h1>
+        <form onSubmit={handleSubmit} className="w-full flex flex-col gap-4">
+          <input
+            type="email"
+            name="correo"
+            placeholder="Correo electrónico"
+            value={formData.correo}
+            onChange={handleChange}
+            required
+            className="p-3 rounded border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <input
+            type="password"
+            name="contrasenia"
+            placeholder="Contraseña"
+            value={formData.contrasenia}
+            onChange={handleChange}
+            required
+            className="p-3 rounded border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <button
+            type="submit"
+            className="bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition duration-200"
+          >
+            Iniciar Sesión
+          </button>
+        </form>
+        <div className="mt-4 flex flex-col gap-2 text-sm text-blue-700">
+          <button
+            type="button"
+            onClick={() => navigate('/recuperar')}
+            className="hover:underline"
+          >
+            Recuperar Contraseña
+          </button>
+          <button
+            type="button"
+            onClick={() => navigate('/registro')}
+            className="hover:underline"
+          >
+            Registrarse
+          </button>
+        </div>
+      </div>
     </div>
   );
 };
