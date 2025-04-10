@@ -27,10 +27,9 @@ public class AcademicoController {
     public String login(@RequestBody LoginUserBody loginUserBody) {
         Academico academico = academicoService.encontrarPorLogin(loginUserBody.getCorreo(), loginUserBody.getContrasenia());
         if (academico != null) {
-            return "Bienvenido " + academico.getNombre();
+            return academico.getNombre();
         } else {
-            return "Credenciales incorrectas";
+            return null;
         }
     }
-
 }
