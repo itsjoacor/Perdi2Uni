@@ -5,23 +5,18 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    localStorage.removeItem("isLoggedIn");
     navigate("/");
   };
 
   return (
     <nav className="bg-blue-700 text-white px-6 py-4 shadow-md flex justify-between items-center w-full">
-      <h1 className="text-xl font-bold">Perdi2EnLaUni</h1>
+      <Link to="/home" className="text-xl font-bold hover:underline">
+        Perdi2EnLaUni
+      </Link>
 
-      <div className="flex gap-6">
-        <Link to="/home" className="hover:underline">
-          Home
-        </Link>
+      <div className="flex gap-6 items-center">
         <Link to="/publicar" className="hover:underline">
           Publicar una pérdida
-        </Link>
-        <Link to="/perfil" className="hover:underline">
-          Editar perfil
         </Link>
         <button onClick={handleLogout} className="hover:underline">
           Cerrar sesión
