@@ -21,26 +21,31 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+
       const response = await axios.post('http://localhost:8080/perdi2enlauni/login', formData);
 
-      if (response.data === '') {
-        alert('Credenciales incorrectas');
-        return;
-      } else {
-        localStorage.setItem("userName", response.data);
-        localStorage.setItem("isLoggedIn", "true");
-        alert('Bienvenido de nuevo ' + response.data);
-        navigate('/home');
-      }
+      localStorage.setItem("userName", response.data);
+      localStorage.setItem("isLoggedIn", "true");
+      alert('Bienvenido de nuevo ' + response.data);
+      navigate('/home');
+
     } catch (error) {
-      console.error('Error al iniciar sesión:', error);
-      alert('Error al iniciar sesión');
+
+      const mensaje = error.response?.data;
+
+      if (mensaje === "Correo no registrado") {
+        alert('Correo no registrado');
+      } else if (mensaje === "Contraseña incorrecta") {
+        alert('Contraseña incorrecta');
+      } else {
+        console.error('Error al registrar:', error);
+        alert('Error al registrar');
+      }
     }
   };
 
   return (
     <div>
-      <h2>Registro de Usuario</h2>
       <form onSubmit={handleSubmit}>
         <input
           type="email"
@@ -59,6 +64,7 @@ const Login = () => {
           required
         />
         <button type="submit">Iniciar sesión</button>
+        <button type="button" onClick={() => navigate('/registro')}>Crear una cuenta</button>
       </form>
     </div>
   );

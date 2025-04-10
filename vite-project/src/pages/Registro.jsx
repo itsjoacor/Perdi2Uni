@@ -2,8 +2,11 @@ import React from "react";
 import { useState } from 'react';
 import axios from 'axios';
 import '../styles/registro.css';
+import { useNavigate } from "react-router-dom";
 
 const Registro = () => {
+  const navigate = useNavigate();
+
   const [formDataCheck, setFormDataCheck] = useState({
     nombre: '',
     correo: '',
@@ -28,6 +31,13 @@ const Registro = () => {
   };
 
   const handleSubmit = async (e) => {
+    
+    e.preventDefault();
+
+    if(!formDataCheck.nombre || !formDataCheck.correo || !formDataCheck.dni || !formDataCheck.contrasenia) {
+      alert('Por favor complete todos los campos');
+      return
+    }
 
     if (formDataCheck.correo !== formDataCheck.repetirCorreo) {
       alert('Los correos no coinciden');
@@ -38,21 +48,37 @@ const Registro = () => {
       alert('Las contraseñas no coinciden');
       return
     }
-
-    setFormData(
-        formData.nombre = formDataCheck.nombre, 
-        formData.correo = formDataCheck.correo, 
-        formData.dni = formDataCheck.dni, 
-        formData.contrasenia = formDataCheck.contrasenia
-    );
-
-    e.preventDefault();
+    
     try {
+
+      setFormData({
+        nombre: formDataCheck.nombre,
+        correo: formDataCheck.correo,
+        dni: formDataCheck.dni,
+        contrasenia: formDataCheck.contrasenia,
+      });
+
       await axios.post('http://localhost:8080/perdi2enlauni/registro', formData);
       alert('Usuario registrado con éxito');
+      navigate('/');
+
     } catch (error) {
-      console.error('Error al registrar:', error);
-      alert('Error al registrar');
+
+      const mensaje = error.response?.data;
+    
+      if (mensaje === "El correo ya está registrado") {
+
+        alert('El correo ya está registrado');
+
+      } else if (mensaje === "El DNI ya está registrado") {
+
+        alert('El DNI ya está registrado');
+
+      } else {
+        console.error('Error al registrar:', error);
+        alert('Error al registrar');
+      }
+
     }
 
   };
@@ -64,7 +90,7 @@ const Registro = () => {
         <input
             type="text"
             name="nombre"
-            placeholder="Nombrey Apellido"
+            placeholder="Nombre y Apellido"
             value={formDataCheck.nombre}
             onChange={handleChange}
             required
@@ -96,7 +122,7 @@ const Registro = () => {
         <input
             type="password"
             name="contrasenia"
-            placeholder="Contrasenña"
+            placeholder="Contraseña"
             value={formDataCheck.contrasenia}
             onChange={handleChange}
             required
@@ -109,7 +135,7 @@ const Registro = () => {
             onChange={handleChange}
             required
         />
-        <button type="submit">Registrarse</button>
+        <button type="submit">Crear cuenta</button>
         </form>
     </div>
   );

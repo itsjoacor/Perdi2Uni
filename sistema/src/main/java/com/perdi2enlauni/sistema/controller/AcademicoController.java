@@ -2,6 +2,8 @@ package com.perdi2enlauni.sistema.controller;
 
 import com.perdi2enlauni.sistema.body.LoginUserBody;
 import com.perdi2enlauni.sistema.model.Academico;
+import com.perdi2enlauni.sistema.service.exceptions.LoginException;
+import com.perdi2enlauni.sistema.service.exceptions.RegistroException;
 import com.perdi2enlauni.sistema.service.interfaces.AcademicoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,18 +20,12 @@ public class AcademicoController {
     private static final Logger logger = LoggerFactory.getLogger(AcademicoController.class);
 
     @PostMapping("/registro")
-    public String registro(@RequestBody Academico academico) {
+    public void registro(@RequestBody Academico academico) throws RegistroException {
         academicoService.guardarAcademico(academico);
-        return "Se agregó el nuevo usuario académico";
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody LoginUserBody loginUserBody) {
-        Academico academico = academicoService.encontrarPorLogin(loginUserBody.getCorreo(), loginUserBody.getContrasenia());
-        if (academico != null) {
-            return academico.getNombre();
-        } else {
-            return null;
-        }
+    public String login(@RequestBody LoginUserBody loginUserBody) throws LoginException {
+        return academicoService.encontrarPorLogin(loginUserBody.getCorreo(), loginUserBody.getContrasenia());
     }
 }

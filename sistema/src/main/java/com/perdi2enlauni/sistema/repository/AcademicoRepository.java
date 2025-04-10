@@ -10,4 +10,8 @@ import java.util.Optional;
 public interface AcademicoRepository extends JpaRepository<Academico, Integer> {
 
     Optional<Academico> findByCorreoAndContrasenia(String correo, String contrasenia);
+
+    Optional<Academico> findByCorreo(String correo);
+
+    Optional<Academico> findByDni(String dni);
 }
