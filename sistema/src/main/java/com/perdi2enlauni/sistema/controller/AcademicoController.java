@@ -8,6 +8,7 @@ import com.perdi2enlauni.sistema.service.interfaces.AcademicoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -20,8 +21,13 @@ public class AcademicoController {
     private static final Logger logger = LoggerFactory.getLogger(AcademicoController.class);
 
     @PostMapping("/registro")
-    public void registro(@RequestBody Academico academico) throws RegistroException {
-        academicoService.guardarAcademico(academico);
+    public ResponseEntity<?> registro(@RequestBody Academico academico) {
+        try {
+            academicoService.guardarAcademico(academico);
+            return ResponseEntity.ok().build(); // si todo está bien
+        } catch (RegistroException e) {
+            return ResponseEntity.badRequest().body(e.getMessage()); // devuelve el mensaje al frontend
+        }
     }
 
     @PostMapping("/login")
