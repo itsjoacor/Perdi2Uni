@@ -24,9 +24,15 @@ const Login = () => {
 
       e.preventDefault();
       try {
-        await axios.post('http://localhost:8080/perdi2enlauni/login', formData);
-        alert('Bienvenido');
-        navigate('/home');
+        const response = await axios.post('http://localhost:8080/perdi2enlauni/login', formData);
+        if (response.data == '') {
+          alert('Credenciales incorrectas');
+          return;
+        }
+        else {
+          alert('Bienvenido de nuevo ' + response.data);
+          navigate('/home');
+        }
       } catch (error) {
         console.error('Error al iniciar sesión:', error);
         alert('Error al iniciar sesión');
