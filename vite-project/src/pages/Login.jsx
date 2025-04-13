@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import fondoLogin from '../styles/images/homeImage.jpeg';
+import fondoLogin from '../assets/fondos/fondoLogin.jpeg';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -21,17 +21,18 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8080/perdi2enlauni/login', formData);
-      if (response.data === '') {
-        alert('Credenciales incorrectas');
-      } else {
+        const response = await axios.post('http://localhost:8080/academicos/login', formData);
         alert('Hola ' + response.data + '!');
         localStorage.setItem('userName', response.data);
         navigate('/home');
-      }
     } catch (error) {
       console.error('Error al iniciar sesión:', error);
-      alert('Error al iniciar sesión');
+
+      if (error.response && error.response.data) {
+        alert(error.response.data); // "El correo ya está registrado" o "El DNI ya está registrado"
+      } else {
+        alert('Error al iniciar sesión');
+      }
     }
   };
 
