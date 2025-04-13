@@ -2,6 +2,7 @@ package com.perdi2enlauni.sistema.controller;
 
 import com.perdi2enlauni.sistema.body.LoginUserBody;
 import com.perdi2enlauni.sistema.model.Academico;
+import com.perdi2enlauni.sistema.model.Publicacion;
 import com.perdi2enlauni.sistema.service.exceptions.LoginException;
 import com.perdi2enlauni.sistema.service.exceptions.RegistroException;
 import com.perdi2enlauni.sistema.service.interfaces.AcademicoService;
@@ -11,8 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("/perdi2enlauni")
+@RequestMapping("/academicos")
 public class AcademicoController {
 
     @Autowired

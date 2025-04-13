@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import fondoLogin from '../styles/images/homeImage.jpeg';
+import fondoLogin from '../assets/fondos/fondoLogin.jpeg';
 
 const Registro = () => {
   const navigate = useNavigate();
@@ -52,7 +52,7 @@ const Registro = () => {
     setFormData(newFormData);
 
     try {
-      await axios.post('http://localhost:8080/perdi2enlauni/registro', newFormData);
+      await axios.post('http://localhost:8080/academicos/registro', newFormData);
       localStorage.setItem('userName', newFormData.nombre);
       alert('Usuario registrado con éxito');
       navigate('/home');

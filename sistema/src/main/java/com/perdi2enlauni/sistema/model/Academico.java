@@ -1,9 +1,8 @@
 package com.perdi2enlauni.sistema.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 public class Academico {
@@ -16,6 +15,9 @@ public class Academico {
     private String correo;
     private String dni;
     private String contrasenia;
+
+    @OneToMany(mappedBy = "academico", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Publicacion> publicaciones;
 
     public Academico() {
     }
