@@ -15,13 +15,6 @@ const Registro = () => {
     repetirContrasenia: ''
   });
 
-  const [formData, setFormData] = useState({
-    nombre: '',
-    correo: '',
-    dni: '',
-    contrasenia: ''
-  });
-
   const handleChange = (e) => {
     setFormDataCheck(prev => ({
       ...prev,
@@ -29,38 +22,42 @@ const Registro = () => {
     }));
   };
 
+  const validarDNI = (dni) => {
+    const dniRegex = /^\d{7,8}$/;
+    return dniRegex.test(dni);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (formDataCheck.correo !== formDataCheck.repetirCorreo) {
+    const { nombre, correo, repetirCorreo, dni, contrasenia, repetirContrasenia } = formDataCheck;
+
+    if (correo !== repetirCorreo) {
       alert('Los correos no coinciden');
       return;
     }
 
-    if (formDataCheck.contrasenia !== formDataCheck.repetirContrasenia) {
+    if (contrasenia !== repetirContrasenia) {
       alert('Las contraseñas no coinciden');
       return;
     }
 
-    const newFormData = {
-      nombre: formDataCheck.nombre,
-      correo: formDataCheck.correo,
-      dni: formDataCheck.dni,
-      contrasenia: formDataCheck.contrasenia
-    };
+    if (!validarDNI(dni)) {
+      alert('Ingrese un número de DNI válido');
+      return;
+    }
 
-    setFormData(newFormData);
+    const newFormData = { nombre, correo, dni, contrasenia };
 
     try {
       await axios.post('http://localhost:8080/academicos/registro', newFormData);
-      localStorage.setItem('userName', newFormData.nombre);
+      localStorage.setItem('userName', nombre);
       alert('Usuario registrado con éxito');
       navigate('/home');
     } catch (error) {
       console.error('Error al registrar:', error);
-
       if (error.response && error.response.data) {
-        alert(error.response.data); // "El correo ya está registrado" o "El DNI ya está registrado"
+        alert(error.response.data);
       } else {
         alert('Error al registrar');
       }
@@ -109,6 +106,8 @@ const Registro = () => {
             value={formDataCheck.dni}
             onChange={handleChange}
             required
+            inputMode="numeric"
+            maxLength={8}
             className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
           <input

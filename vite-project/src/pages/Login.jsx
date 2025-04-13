@@ -29,7 +29,7 @@ const Login = () => {
       console.error('Error al iniciar sesión:', error);
 
       if (error.response && error.response.data) {
-        alert(error.response.data); // "El correo ya está registrado" o "El DNI ya está registrado"
+        alert(error.response.data);
       } else {
         alert('Error al iniciar sesión');
       }
