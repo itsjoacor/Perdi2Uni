@@ -2,7 +2,9 @@ package com.perdi2enlauni.sistema.model;
 
 import jakarta.persistence.*;
 
+import java.sql.Time;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 public class Publicacion {
@@ -11,8 +13,9 @@ public class Publicacion {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private LocalDateTime fechaYHora;
     private String descripcion;
+    private Date fecha;
+    private Time hora;
 
     @ManyToOne
     @JoinColumn(name = "academico_id", nullable = false)
@@ -20,11 +23,16 @@ public class Publicacion {
 
     public Publicacion() {
     }
-
-    public Publicacion(int id, LocalDateTime fechaYHora, String descripcion, Academico academico) {
-        this.id = id;
-        this.fechaYHora = fechaYHora;
+    public Publicacion(String descripcion, Date fecha, Time hora, int id) {
         this.descripcion = descripcion;
-        this.academico = academico;
+        this.fecha = fecha;
+        this.hora = hora;
+        this.id = id;
+    }
+
+    public Publicacion(String descripcion, Date fecha, Time hora) {
+        this.descripcion = descripcion;
+        this.fecha = fecha;
+        this.hora = hora;
     }
 }

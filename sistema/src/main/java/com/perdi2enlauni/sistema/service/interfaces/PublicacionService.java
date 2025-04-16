@@ -8,4 +8,5 @@ import java.util.List;
 @Service
 public interface PublicacionService {
     List<Publicacion> getPublicaciones();
+    Publicacion publicar(Publicacion publicacion);
 }
