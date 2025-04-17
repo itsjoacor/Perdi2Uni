@@ -5,15 +5,16 @@ import fondoLogin from "../assets/fondos/fondoLogin.jpeg";
 
 const Publicar = () => {
 	const navigate = useNavigate();
-
 	const userName = localStorage.getItem("userName");
+	const dniUser = localStorage.getItem("dni") || ""; // Default to an empty string if null
+
+
 	const [formDataCheck, setFormDataCheck] = useState({
 		descripcion: "",
 		fecha: "", 
 		horario: "", 
-        correo: ""
-        //Falta el correo, que se puede obtener del localStorage 
-                //modificando el registro.
+		dni: dniUser
+
 	});
 
 	const handleChange = (e) => {
@@ -28,7 +29,7 @@ const Publicar = () => {
 
 		const { descripcion, fecha, horario } = formDataCheck;
 
-		const newFormData = { descripcion, fecha, horario, correo};
+		const newFormData = { descripcion, fecha, horario, dni};
 
 		try {
 			await axios.post(
