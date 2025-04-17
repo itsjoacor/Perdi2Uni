@@ -23,16 +23,15 @@ public class Publicacion {
 
     public Publicacion() {
     }
-    public Publicacion(String descripcion, Date fecha, Time hora, int id) {
+    public Publicacion(String descripcion, Date fecha, Time hora, Academico academico) {
         this.descripcion = descripcion;
         this.fecha = fecha;
         this.hora = hora;
-        this.id = id;
+        this.academico = academico;
     }
 
-    public Publicacion(String descripcion, Date fecha, Time hora) {
-        this.descripcion = descripcion;
-        this.fecha = fecha;
-        this.hora = hora;
-    }
+    public void setDescripcion(String descripcion){this.descripcion = descripcion;};
+    public void setFecha(Date fecha){this.fecha = fecha;};
+    public void setHora(Time hora){this.hora = hora;};
+    public void setAcademico(Academico academico){this.academico = academico;};
 }

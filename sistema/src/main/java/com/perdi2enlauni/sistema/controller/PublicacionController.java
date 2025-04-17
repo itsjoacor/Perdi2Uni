@@ -1,5 +1,6 @@
 package com.perdi2enlauni.sistema.controller;
 
+import com.perdi2enlauni.sistema.body.PublicacionBody;
 import com.perdi2enlauni.sistema.model.Academico;
 import com.perdi2enlauni.sistema.model.Publicacion;
 import com.perdi2enlauni.sistema.service.exceptions.PublicacionException;
@@ -27,10 +28,8 @@ public class PublicacionController {
     }
 
     @PostMapping("/publicar")
-    public Publicacion publicar(@RequestBody Publicacion publicacion, String dni) {
-        // hacer el  fetch del ID en la DB
-        //registrarle a la public el dni
-        return publicacionService.publicar(publicacion);
+    public Publicacion publicar(@RequestBody PublicacionBody publicacionBody) {
+        return publicacionService.publicar(publicacionBody);
     }
 
 
