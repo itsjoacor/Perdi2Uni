@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import fondoLogin from "../assets/fondos/fondoLogin.jpeg";
@@ -8,14 +8,17 @@ const Publicar = () => {
 	const userName = localStorage.getItem("userName");
 	const dniUser = localStorage.getItem("dni") || ""; // Default to an empty string if null
 
-
+	// Set the form state, including dni
 	const [formDataCheck, setFormDataCheck] = useState({
 		descripcion: "",
-		fecha: "", 
-		horario: "", 
-		dni: dniUser
-
+		fecha: "",
+		horario: "",
+		dni: dniUser, // Store dni from localStorage
 	});
+
+	useEffect(() => {
+		// You can also add logic here to update the dni state if it changes
+	}, []); // Empty array to run only once when the component mounts
 
 	const handleChange = (e) => {
 		setFormDataCheck((prev) => ({
@@ -27,13 +30,16 @@ const Publicar = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
-		const { descripcion, fecha, horario } = formDataCheck;
+		const { descripcion, fecha, horario, dni } = formDataCheck;
 
-		const newFormData = { descripcion, fecha, horario, dni};
+		// Ensure the hora is in the correct format (HH:mm:ss)
+		const formattedHora = `${horario}:00`; // Add ":00" for the seconds
+
+		const newFormData = { descripcion, fecha, hora: formattedHora, dni };
 
 		try {
 			await axios.post(
-				"http://localhost:8080/publicaciones/publicar", // your backend URL
+				"http://localhost:8080/publicaciones/publicar", // URL of your backend
 				newFormData
 			);
 			alert("Publicacion realizada correctamente");
