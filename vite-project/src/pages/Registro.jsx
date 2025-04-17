@@ -52,6 +52,7 @@ const Registro = () => {
     try {
       await axios.post('http://localhost:8080/academicos/registro', newFormData);
       localStorage.setItem('userName', nombre);
+      localStorage.setItem('dni', dni)
       alert('Usuario registrado con éxito');
       navigate('/home');
     } catch (error) {
