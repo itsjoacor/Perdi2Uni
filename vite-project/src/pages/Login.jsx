@@ -22,8 +22,11 @@ const Login = () => {
     e.preventDefault();
     try {
         const response = await axios.post('http://localhost:8080/academicos/login', formData);
-        alert('Hola ' + response.data + '!');
-        localStorage.setItem('userName', response.data);
+        const { nombre, dni } = response.data;
+        alert('Hola ' + nombre + '!');
+        localStorage.setItem('userName', nombre);
+        localStorage.setItem('dni', dni)
+
         navigate('/home');
     } catch (error) {
       console.error('Error al iniciar sesión:', error);
