@@ -20,4 +20,6 @@ public interface AcademicoService {
     Academico encontrarAcademicoPorDni(String dni) throws EncontrarException;
 
     String encontrarPorLogin(String correo, String contrasenia);
+
+    Academico encontrarAcademicoPorCorreo(String correo);
 }

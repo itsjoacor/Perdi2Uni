@@ -68,4 +68,14 @@ public class AcademicoServiceImpl implements AcademicoService {
         }
     }
 
+    @Override
+    public Academico encontrarAcademicoPorCorreo(String correo) {
+        Optional<Academico> academico = academicoRepository.findByCorreo(correo);
+        if (academico.isPresent()) {
+            return academico.get();
+        } else {
+            return null;
+        }
+    }
+
 }
