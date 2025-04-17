@@ -35,6 +35,6 @@ public class AcademicoController {
 
     @PostMapping("/login")
     public Academico login(@RequestBody LoginUserBody loginUserBody) throws LoginException {
-        return academicoService.encontrarAcademicoPorCorreo(loginUserBody.getCorreo());
+        return academicoService.encontrarPorLogin(loginUserBody.getCorreo(), loginUserBody.getContrasenia());
     }
 }

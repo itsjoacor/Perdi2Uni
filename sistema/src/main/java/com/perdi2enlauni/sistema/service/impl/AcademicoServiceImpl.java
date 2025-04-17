@@ -44,11 +44,11 @@ public class AcademicoServiceImpl implements AcademicoService {
     }
 
     @Override
-    public String encontrarPorLogin(String correo, String contrasenia) throws LoginException {
+    public Academico encontrarPorLogin(String correo, String contrasenia) throws LoginException {
         Optional<Academico> academicoCorreo = academicoRepository.findByCorreo(correo);
 
         if (academicoCorreo.isPresent() && academicoCorreo.get().getContrasenia().equals(contrasenia)) {
-            return academicoCorreo.get().getNombre();
+            return academicoCorreo.get();
         } else if (academicoCorreo.isPresent()) {
             throw new LoginException("Contraseña incorrecta");
         }
@@ -59,7 +59,7 @@ public class AcademicoServiceImpl implements AcademicoService {
     }
 
     @Override
-    public Academico encontrarAcademicoPorDni(String dni) throws EncontrarException {
+    public Academico encontrarAcademicoPorDni(String dni) throws LoginException {
         Optional<Academico> academico= academicoRepository.findByDni(dni);
         if (academico.isPresent()) {
             return academico.get();
