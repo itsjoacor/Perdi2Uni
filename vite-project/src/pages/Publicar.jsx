@@ -78,6 +78,7 @@ const Publicar = () => {
 							type="date"
 							name="fecha"
 							value={formDataCheck.fecha}
+							max={new Date().toISOString().split("T")[0]}
 							onChange={handleChange}
 							required
 							className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -87,6 +88,7 @@ const Publicar = () => {
 							name="horario"
 							value={formDataCheck.horario}
 							onChange={handleChange}
+							max="23:00"
 							required
 							className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
 						/>
