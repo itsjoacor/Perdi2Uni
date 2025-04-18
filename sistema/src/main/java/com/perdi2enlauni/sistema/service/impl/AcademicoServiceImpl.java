@@ -2,6 +2,7 @@ package com.perdi2enlauni.sistema.service.impl;
 
 import com.perdi2enlauni.sistema.model.Academico;
 import com.perdi2enlauni.sistema.repository.AcademicoRepository;
+import com.perdi2enlauni.sistema.service.exceptions.EncontrarException;
 import com.perdi2enlauni.sistema.service.exceptions.LoginException;
 import com.perdi2enlauni.sistema.service.exceptions.RegistroException;
 import com.perdi2enlauni.sistema.service.interfaces.AcademicoService;
@@ -43,11 +44,11 @@ public class AcademicoServiceImpl implements AcademicoService {
     }
 
     @Override
-    public String encontrarPorLogin(String correo, String contrasenia) throws LoginException {
+    public Academico encontrarPorLogin(String correo, String contrasenia) throws LoginException {
         Optional<Academico> academicoCorreo = academicoRepository.findByCorreo(correo);
 
         if (academicoCorreo.isPresent() && academicoCorreo.get().getContrasenia().equals(contrasenia)) {
-            return academicoCorreo.get().getNombre();
+            return academicoCorreo.get();
         } else if (academicoCorreo.isPresent()) {
             throw new LoginException("Contraseña incorrecta");
         }
@@ -55,6 +56,26 @@ public class AcademicoServiceImpl implements AcademicoService {
             throw new LoginException("Correo no registrado");
         }
 
+    }
+
+    @Override
+    public Academico encontrarAcademicoPorDni(String dni) throws LoginException {
+        Optional<Academico> academico= academicoRepository.findByDni(dni);
+        if (academico.isPresent()) {
+            return academico.get();
+        } else {
+            throw new EncontrarException("No existe el usuario con el DNI: " + dni);
+        }
+    }
+
+    @Override
+    public Academico encontrarAcademicoPorCorreo(String correo) {
+        Optional<Academico> academico = academicoRepository.findByCorreo(correo);
+        if (academico.isPresent()) {
+            return academico.get();
+        } else {
+            return null;
+        }
     }
 
 }

@@ -1,10 +1,12 @@
 package com.perdi2enlauni.sistema.service.interfaces;
 
 import com.perdi2enlauni.sistema.model.Academico;
+import com.perdi2enlauni.sistema.service.exceptions.EncontrarException;
 import com.perdi2enlauni.sistema.service.exceptions.RegistroException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public interface AcademicoService {
@@ -15,5 +17,9 @@ public interface AcademicoService {
 
     Academico encontrarPorId(int id);
 
-    String encontrarPorLogin(String correo, String contrasenia);
+    Academico encontrarAcademicoPorDni(String dni) throws EncontrarException;
+
+    Academico encontrarPorLogin(String correo, String contrasenia);
+
+    Academico encontrarAcademicoPorCorreo(String correo);
 }
