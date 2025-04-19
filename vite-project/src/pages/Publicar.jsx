@@ -87,11 +87,12 @@ const Publicar = () => {
 							type="time"
 							name="horario"
 							value={formDataCheck.horario}
-							onChange={handleChange}
+							min="08:00"
 							max="23:00"
+							onChange={handleChange}
 							required
 							className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
-						/>
+          				  />
 
 						<button
 							type="submit"
