@@ -18,7 +18,7 @@ public class Publicacion {
     private Time hora;
 
     @ManyToOne
-    @JoinColumn(name = "academico_id", nullable = false)
+    @JoinColumn(name = "usuario_id", nullable = false)
     private Academico academico;
 
     public Publicacion() {

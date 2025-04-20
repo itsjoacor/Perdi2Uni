@@ -1,22 +1,20 @@
 package com.perdi2enlauni.sistema.model;
 
 import jakarta.persistence.*;
-
 import java.util.List;
 
 @Entity
+@DiscriminatorValue("Normal")
 public class Academico extends Usuario {
-
     @OneToMany(mappedBy = "academico", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Publicacion> publicaciones;
 
     public Academico() {
         super();
-        this.setRol("Normal"); // Set the role to "Normal" for Academico
     }
 
-    public Academico(int id, String nombre, String correo, String dni, String contrasenia) {
-        super(id, nombre, correo, dni, contrasenia, "Normal"); // Set the role to "Normal" for Academico
+    public Academico(String nombre, String correo, String dni, String contrasenia) {
+        super(nombre, correo, dni, contrasenia);
     }
 
     public List<Publicacion> getPublicaciones() {
