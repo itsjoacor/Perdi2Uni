@@ -11,9 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Time;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PublicacionServiceImpl implements PublicacionService {
@@ -34,7 +34,7 @@ public class PublicacionServiceImpl implements PublicacionService {
     @Override
     public Publicacion publicar(PublicacionBody publicacionBody) {
         String descripcion = publicacionBody.getDescripcion();
-        Date fecha = publicacionBody.getFecha();
+        LocalDate fecha = publicacionBody.getFecha();
         Time hora = publicacionBody.getHora();
         String dni = publicacionBody.getDni();
 
@@ -44,4 +44,7 @@ public class PublicacionServiceImpl implements PublicacionService {
 
         return publicacionRepository.save(publicacion);
     }
+
+    @Override
+    public List<Publicacion> getPublicacionesPorFecha(LocalDate fecha) { return publicacionRepository.findByFecha(fecha); }
 }
