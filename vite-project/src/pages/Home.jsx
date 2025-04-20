@@ -30,14 +30,14 @@ const Home = () => {
 				<div>
 					<Navbar />
 					{data.length > 0 ? (
-						<div className="mt-20 bg-white shadow-md rounded-lg p-6 text-gray-700 w-150 max-w-md mx-auto">
-							<table className="table-auto w-full text-left">
+						<div className="mt-20 bg-white shadow-md rounded-lg p-6 text-gray-700 w-full max-w-4xl mx-auto overflow-x-auto">
+							<table className="table-auto w-full text-center">
 								<thead>
 									<tr className="bg-blue-200">
-										<th className="px-4 py-2">HORA</th>
-										<th className="px-4 py-2">NOMBRE</th>
-										<th className="px-4 py-2">CORREO</th>
-										<th className="px-4 py-2">DESCRIPCIÓN</th>
+										<th className="px-6 py-4">HORA</th>
+										<th className="px-6 py-4">NOMBRE</th>
+										<th className="px-6 py-4">CORREO</th>
+										<th className="px-6 py-4">DESCRIPCIÓN</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -45,10 +45,10 @@ const Home = () => {
 										console.log("Rendering item:", item); // Log each item
 										return (
 											<tr key={index} className="border-b">
-												<td className="px-4 py-2">{item.hora}</td>
-												<td className="px-4 py-2">{item.nombre}</td>
-												<td className="px-4 py-2">{item.correo}</td>
-												<td className="px-4 py-2">{item.descripcion}</td>
+												<td className="px-6 py-4">{item.hora}</td>
+												<td className="px-6 py-4">{item.academico.nombre}</td>
+												<td className="px-6 py-4">{item.academico.correo}</td>
+												<td className="px-6 py-4">{item.descripcion}</td>
 											</tr>
 										);
 									})}
