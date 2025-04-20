@@ -1,5 +1,6 @@
 package com.perdi2enlauni.sistema.service.interfaces;
 
+import com.perdi2enlauni.sistema.model.Academico;
 import com.perdi2enlauni.sistema.model.Usuario;
 import com.perdi2enlauni.sistema.service.exceptions.EncontrarException;
 import com.perdi2enlauni.sistema.service.exceptions.RegistroException;
@@ -10,7 +11,7 @@ import java.util.List;
 @Service
 public interface AcademicoService {
 
-    Usuario guardarAcademico(Usuario usuario) throws RegistroException;
+    Academico guardarAcademico(Academico academico) throws RegistroException;
 
     List<Usuario> recuperarTodos();
 

@@ -25,9 +25,9 @@ public class AcademicoController {
     private static final Logger logger = LoggerFactory.getLogger(AcademicoController.class);
 
     @PostMapping("/registro")
-    public ResponseEntity<?> registro(@RequestBody Usuario usuario) {
+    public ResponseEntity<?> registro(@RequestBody Academico academico) {
         try {
-            academicoService.guardarAcademico(usuario);
+            academicoService.guardarAcademico(academico);
             return ResponseEntity.ok().build(); // si todo está bien
         } catch (RegistroException e) {
             return ResponseEntity.badRequest().body(e.getMessage()); // devuelve el mensaje al frontend
@@ -38,4 +38,6 @@ public class AcademicoController {
     public Usuario login(@RequestBody LoginUserBody loginUserBody) throws LoginException {
         return academicoService.encontrarPorLogin(loginUserBody.getCorreo(), loginUserBody.getContrasenia());
     }
+
+
 }

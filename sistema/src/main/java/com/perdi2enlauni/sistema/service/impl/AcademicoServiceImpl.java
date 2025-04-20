@@ -1,5 +1,6 @@
 package com.perdi2enlauni.sistema.service.impl;
 
+import com.perdi2enlauni.sistema.model.Academico;
 import com.perdi2enlauni.sistema.model.Usuario;
 import com.perdi2enlauni.sistema.repository.AcademicoRepository;
 import com.perdi2enlauni.sistema.service.exceptions.EncontrarException;
@@ -19,17 +20,17 @@ public class AcademicoServiceImpl implements AcademicoService {
     private AcademicoRepository academicoRepository;
 
     @Override
-    public Usuario guardarAcademico(Usuario usuario) throws RegistroException {
-        Optional<Usuario> usuarioCorreo = academicoRepository.findByCorreo(usuario.getCorreo());
-        Optional<Usuario> usuarioDni = academicoRepository.findByDni(usuario.getDni());
-        if (usuarioCorreo.isPresent()) {
+    public Academico guardarAcademico(Academico academico) throws RegistroException {
+        Optional<Usuario> academicoCorreo = academicoRepository.findByCorreo(academico.getCorreo());
+        Optional<Usuario> academicoDni = academicoRepository.findByDni(academico.getDni());
+        if (academicoCorreo.isPresent()) {
             throw new RegistroException("El correo ya está registrado");
         }
-        else if (usuarioDni.isPresent()) {
+        else if (academicoDni.isPresent()) {
             throw new RegistroException("El DNI ya está registrado");
         }
         else {
-            return academicoRepository.save(usuario);
+            return academicoRepository.save(academico);
         }
     }
 
