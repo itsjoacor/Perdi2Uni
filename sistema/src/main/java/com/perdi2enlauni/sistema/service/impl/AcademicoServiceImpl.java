@@ -1,6 +1,6 @@
 package com.perdi2enlauni.sistema.service.impl;
 
-import com.perdi2enlauni.sistema.model.Academico;
+import com.perdi2enlauni.sistema.model.Usuario;
 import com.perdi2enlauni.sistema.repository.AcademicoRepository;
 import com.perdi2enlauni.sistema.service.exceptions.EncontrarException;
 import com.perdi2enlauni.sistema.service.exceptions.LoginException;
@@ -19,33 +19,33 @@ public class AcademicoServiceImpl implements AcademicoService {
     private AcademicoRepository academicoRepository;
 
     @Override
-    public Academico guardarAcademico(Academico academico) throws RegistroException {
-        Optional<Academico> academicoCorreo = academicoRepository.findByCorreo(academico.getCorreo());
-        Optional<Academico> academicoDni = academicoRepository.findByDni(academico.getDni());
-        if (academicoCorreo.isPresent()) {
+    public Usuario guardarAcademico(Usuario usuario) throws RegistroException {
+        Optional<Usuario> usuarioCorreo = academicoRepository.findByCorreo(usuario.getCorreo());
+        Optional<Usuario> usuarioDni = academicoRepository.findByDni(usuario.getDni());
+        if (usuarioCorreo.isPresent()) {
             throw new RegistroException("El correo ya está registrado");
         }
-        else if (academicoDni.isPresent()) {
+        else if (usuarioDni.isPresent()) {
             throw new RegistroException("El DNI ya está registrado");
         }
         else {
-            return academicoRepository.save(academico);
+            return academicoRepository.save(usuario);
         }
     }
 
     @Override
-    public List<Academico> recuperarTodos() {
+    public List<Usuario> recuperarTodos() {
         return academicoRepository.findAll();
     }
 
     @Override
-    public Academico encontrarPorId(int id) {
+    public Usuario encontrarPorId(int id) {
         return academicoRepository.findById(id).orElse(null);
     }
 
     @Override
-    public Academico encontrarPorLogin(String correo, String contrasenia) throws LoginException {
-        Optional<Academico> academicoCorreo = academicoRepository.findByCorreo(correo);
+    public Usuario encontrarPorLogin(String correo, String contrasenia) throws LoginException {
+        Optional<Usuario> academicoCorreo = academicoRepository.findByCorreo(correo);
 
         if (academicoCorreo.isPresent() && academicoCorreo.get().getContrasenia().equals(contrasenia)) {
             return academicoCorreo.get();
@@ -59,8 +59,8 @@ public class AcademicoServiceImpl implements AcademicoService {
     }
 
     @Override
-    public Academico encontrarAcademicoPorDni(String dni) throws LoginException {
-        Optional<Academico> academico= academicoRepository.findByDni(dni);
+    public Usuario encontrarAcademicoPorDni(String dni) throws LoginException {
+        Optional<Usuario> academico= academicoRepository.findByDni(dni);
         if (academico.isPresent()) {
             return academico.get();
         } else {
@@ -69,8 +69,8 @@ public class AcademicoServiceImpl implements AcademicoService {
     }
 
     @Override
-    public Academico encontrarAcademicoPorCorreo(String correo) {
-        Optional<Academico> academico = academicoRepository.findByCorreo(correo);
+    public Usuario encontrarAcademicoPorCorreo(String correo) {
+        Optional<Usuario> academico = academicoRepository.findByCorreo(correo);
         if (academico.isPresent()) {
             return academico.get();
         } else {

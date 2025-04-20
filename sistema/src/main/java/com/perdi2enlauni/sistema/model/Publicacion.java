@@ -17,51 +17,22 @@ public class Publicacion {
 
     @ManyToOne
     @JoinColumn(name = "usuario_id", nullable = false)
-    private Academico academico;
-
+    private Usuario usuario;
     public Publicacion() {
     }
 
-    public Publicacion(String descripcion, Date fecha, Time hora, Academico academico) {
+    public Publicacion(String descripcion, Date fecha, Time hora, Usuario usuario) {
         this.descripcion = descripcion;
         this.fecha = fecha;
         this.hora = hora;
-        this.academico = academico;
+        this.usuario = usuario;
     }
 
-    public int getId() {
-        return id;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public Date getFecha() {
-        return fecha;
-    }
-
-    public Time getHora() {
-        return hora;
-    }
-
-    public Academico getAcademico() {
-        return academico;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
-    public void setFecha(Date fecha) {
-        this.fecha = fecha;
-    }
-
-    public void setHora(Time hora) {
-        this.hora = hora;
-    }
-
-    public void setAcademico(Academico academico) {
-        this.academico = academico;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 }

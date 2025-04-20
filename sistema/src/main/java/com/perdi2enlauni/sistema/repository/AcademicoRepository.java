@@ -1,17 +1,18 @@
 package com.perdi2enlauni.sistema.repository;
 
 import com.perdi2enlauni.sistema.model.Academico;
+import com.perdi2enlauni.sistema.model.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface AcademicoRepository extends JpaRepository<Academico, Integer> {
+public interface AcademicoRepository extends JpaRepository<Usuario, Integer> {
 
-    Optional<Academico> findByCorreoAndContrasenia(String correo, String contrasenia);
+    Optional<Usuario> findByCorreoAndContrasenia(String correo, String contrasenia);
 
-    Optional<Academico> findByCorreo(String correo);
+    Optional<Usuario> findByCorreo(String correo);
 
-    Optional<Academico> findByDni(String dni);
+    Optional<Usuario> findByDni(String dni);
 }

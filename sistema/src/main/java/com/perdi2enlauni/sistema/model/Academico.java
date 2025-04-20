@@ -6,7 +6,8 @@ import java.util.List;
 @Entity
 @DiscriminatorValue("Normal")
 public class Academico extends Usuario {
-    @OneToMany(mappedBy = "academico", cascade = CascadeType.ALL, orphanRemoval = true)
+
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Publicacion> publicaciones;
 
     public Academico() {

@@ -3,7 +3,7 @@ package com.perdi2enlauni.sistema.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "usuario")  // Explicit table name
+@Table(name = "usuario")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "rol", discriminatorType = DiscriminatorType.STRING)
 public abstract class Usuario {
@@ -27,7 +27,7 @@ public abstract class Usuario {
         this.contrasenia = contrasenia;
     }
 
-    // Getters and setters
+
     public int getId() {
         return id;
     }
