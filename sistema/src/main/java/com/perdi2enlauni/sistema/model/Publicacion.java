@@ -2,6 +2,7 @@ package com.perdi2enlauni.sistema.model;
 
 import jakarta.persistence.*;
 import java.sql.Time;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -12,7 +13,7 @@ public class Publicacion {
     private int id;
 
     private String descripcion;
-    private Date fecha;
+    private LocalDate fecha;
     private Time hora;
 
     @ManyToOne
@@ -22,7 +23,7 @@ public class Publicacion {
     public Publicacion() {
     }
 
-    public Publicacion(String descripcion, Date fecha, Time hora, Academico academico) {
+    public Publicacion(String descripcion, LocalDate fecha, Time hora, Academico academico) {
         this.descripcion = descripcion;
         this.fecha = fecha;
         this.hora = hora;
@@ -37,7 +38,7 @@ public class Publicacion {
         return descripcion;
     }
 
-    public Date getFecha() {
+    public LocalDate getFecha() {
         return fecha;
     }
 
@@ -53,7 +54,7 @@ public class Publicacion {
         this.descripcion = descripcion;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
     }
 
