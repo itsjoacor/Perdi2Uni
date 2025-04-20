@@ -1,73 +1,30 @@
 package com.perdi2enlauni.sistema.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-
 import java.util.List;
 
 @Entity
-public class Academico {
+@DiscriminatorValue("academico")
+public class Academico extends Usuario {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
-    private String nombre;
-    private String correo;
-    private String dni;
-    private String contrasenia;
-
-    @OneToMany(mappedBy = "academico", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Publicacion> publicaciones;
 
     public Academico() {
+        super();
     }
 
-    public Academico(int id, String nombre, String correo, String dni, String contrasenia) {
-        this.id = id;
-        this.nombre = nombre;
-        this.correo = correo;
-        this.dni = dni;
-        this.contrasenia = contrasenia;
+    public Academico(String nombre, String correo, String dni, String contrasenia) {
+        super(nombre, correo, dni, contrasenia);
     }
 
-    public int getId() {
-        return id;
+    public List<Publicacion> getPublicaciones() {
+        return publicaciones;
     }
 
-    public String getNombre() {
-        return nombre;
+    public void setPublicaciones(List<Publicacion> publicaciones) {
+        this.publicaciones = publicaciones;
     }
-
-    public String getCorreo() {
-        return correo;
-    }
-
-    public String getDni() {
-        return dni;
-    }
-
-    public String getContrasenia() {
-        return contrasenia;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public void setCorreo(String correo) {
-        this.correo = correo;
-    }
-
-    public void setDni(String dni) {
-        this.dni = dni;
-    }
-
-    public void setContrasenia(String contrasenia) {
-        this.contrasenia = contrasenia;
-    }
-
 }

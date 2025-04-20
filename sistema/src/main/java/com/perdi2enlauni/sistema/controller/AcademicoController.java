@@ -3,6 +3,7 @@ package com.perdi2enlauni.sistema.controller;
 import com.perdi2enlauni.sistema.body.LoginUserBody;
 import com.perdi2enlauni.sistema.model.Academico;
 import com.perdi2enlauni.sistema.model.Publicacion;
+import com.perdi2enlauni.sistema.model.Usuario;
 import com.perdi2enlauni.sistema.service.exceptions.LoginException;
 import com.perdi2enlauni.sistema.service.exceptions.RegistroException;
 import com.perdi2enlauni.sistema.service.interfaces.AcademicoService;
@@ -24,9 +25,9 @@ public class AcademicoController {
     private static final Logger logger = LoggerFactory.getLogger(AcademicoController.class);
 
     @PostMapping("/registro")
-    public ResponseEntity<?> registro(@RequestBody Academico academico) {
+    public ResponseEntity<?> registro(@RequestBody Usuario usuario) {
         try {
-            academicoService.guardarAcademico(academico);
+            academicoService.guardarAcademico(usuario);
             return ResponseEntity.ok().build(); // si todo está bien
         } catch (RegistroException e) {
             return ResponseEntity.badRequest().body(e.getMessage()); // devuelve el mensaje al frontend
@@ -34,7 +35,7 @@ public class AcademicoController {
     }
 
     @PostMapping("/login")
-    public Academico login(@RequestBody LoginUserBody loginUserBody) throws LoginException {
+    public Usuario login(@RequestBody LoginUserBody loginUserBody) throws LoginException {
         return academicoService.encontrarPorLogin(loginUserBody.getCorreo(), loginUserBody.getContrasenia());
     }
 }

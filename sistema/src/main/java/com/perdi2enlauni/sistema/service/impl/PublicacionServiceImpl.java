@@ -3,6 +3,7 @@ package com.perdi2enlauni.sistema.service.impl;
 import com.perdi2enlauni.sistema.body.PublicacionBody;
 import com.perdi2enlauni.sistema.model.Academico;
 import com.perdi2enlauni.sistema.model.Publicacion;
+import com.perdi2enlauni.sistema.model.Usuario;
 import com.perdi2enlauni.sistema.repository.PublicacionRepository;
 import com.perdi2enlauni.sistema.service.interfaces.AcademicoService;
 import com.perdi2enlauni.sistema.service.interfaces.PublicacionService;
@@ -37,7 +38,7 @@ public class PublicacionServiceImpl implements PublicacionService {
         Time hora = publicacionBody.getHora();
         String dni = publicacionBody.getDni();
 
-        Academico academico = academicoService.encontrarAcademicoPorDni(dni);
+        Usuario academico = academicoService.encontrarAcademicoPorDni(dni);
 
         Publicacion publicacion = new Publicacion(descripcion, fecha, hora, academico);
 
