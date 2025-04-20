@@ -1,9 +1,7 @@
 package com.perdi2enlauni.sistema.model;
 
 import jakarta.persistence.*;
-
 import java.sql.Time;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -23,6 +21,7 @@ public class Publicacion {
 
     public Publicacion() {
     }
+
     public Publicacion(String descripcion, Date fecha, Time hora, Academico academico) {
         this.descripcion = descripcion;
         this.fecha = fecha;
@@ -30,8 +29,39 @@ public class Publicacion {
         this.academico = academico;
     }
 
-    public void setDescripcion(String descripcion){this.descripcion = descripcion;};
-    public void setFecha(Date fecha){this.fecha = fecha;};
-    public void setHora(Time hora){this.hora = hora;};
-    public void setAcademico(Academico academico){this.academico = academico;};
+    public int getId() {
+        return id;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public Time getHora() {
+        return hora;
+    }
+
+    public Academico getAcademico() {
+        return academico;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
+
+    public void setHora(Time hora) {
+        this.hora = hora;
+    }
+
+    public void setAcademico(Academico academico) {
+        this.academico = academico;
+    }
 }
