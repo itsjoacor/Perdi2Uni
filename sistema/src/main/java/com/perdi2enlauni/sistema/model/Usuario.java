@@ -1,11 +1,13 @@
 package com.perdi2enlauni.sistema.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "usuario")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "rol", discriminatorType = DiscriminatorType.STRING)
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public abstract class Usuario {
 
     @Id

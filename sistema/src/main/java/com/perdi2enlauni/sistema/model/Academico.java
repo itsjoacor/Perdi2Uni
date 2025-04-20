@@ -1,13 +1,15 @@
 package com.perdi2enlauni.sistema.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
-@DiscriminatorValue("Normal")
+@DiscriminatorValue("academico")
 public class Academico extends Usuario {
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Publicacion> publicaciones;
 
     public Academico() {

@@ -21,8 +21,8 @@ public class DataLoader implements CommandLineRunner {
             // Create and save an Admin user
             Admin admin = new Admin(
                     "Admin",
-                    "admin@gmail.com",
-                    "1111111",
+                    "admin@admin.com",
+                    "11111111",
                     "admin"
             );
             usuarioRepository.save(admin); // Now this will work
@@ -30,7 +30,7 @@ public class DataLoader implements CommandLineRunner {
             // Create and save an Academic user
             Academico academico = new Academico(
                     "Academico",
-                    "academic@gmail.com",
+                    "academico@gmail.com",
                     "22222222",
                     "academico"
             );

@@ -3,7 +3,7 @@ package com.perdi2enlauni.sistema.model;
 import jakarta.persistence.*;
 
 @Entity
-@DiscriminatorValue("Admin")
+@DiscriminatorValue("admin")
 public class Admin extends Usuario {
 
     public Admin() {
