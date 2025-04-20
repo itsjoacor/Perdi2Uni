@@ -1,17 +1,14 @@
 package com.perdi2enlauni.sistema.controller;
 
 import com.perdi2enlauni.sistema.body.PublicacionBody;
-import com.perdi2enlauni.sistema.model.Academico;
 import com.perdi2enlauni.sistema.model.Publicacion;
-import com.perdi2enlauni.sistema.service.exceptions.PublicacionException;
-import com.perdi2enlauni.sistema.service.exceptions.RegistroException;
 import com.perdi2enlauni.sistema.service.interfaces.AcademicoService;
 import com.perdi2enlauni.sistema.service.interfaces.PublicacionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.support.AbstractCacheManager;
-import org.springframework.http.ResponseEntity;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -32,5 +29,10 @@ public class PublicacionController {
         return publicacionService.publicar(publicacionBody);
     }
 
+    @GetMapping("/filtro")
+    public List<Publicacion> getPublicacionesPorFecha(
+            @RequestParam("fecha") @DateTimeFormat(pattern = "yyyy-MM-dd") Date fecha) {
+        return publicacionService.getPublicacionesPorFecha(fecha);
+    }
 
 }

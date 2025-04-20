@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import java.sql.Time;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PublicacionServiceImpl implements PublicacionService {
@@ -43,4 +42,7 @@ public class PublicacionServiceImpl implements PublicacionService {
 
         return publicacionRepository.save(publicacion);
     }
+
+    @Override
+    public List<Publicacion> getPublicacionesPorFecha(Date fecha) { return publicacionRepository.findByFecha(fecha); }
 }
