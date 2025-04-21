@@ -30,6 +30,7 @@ public class AcademicoServiceImpl implements AcademicoService {
             throw new RegistroException("El DNI ya está registrado");
         }
         else {
+            academico.setRol("academico");
             return academicoRepository.save(academico);
         }
     }

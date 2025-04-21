@@ -22,10 +22,11 @@ const Login = () => {
     e.preventDefault();
     try {
         const response = await axios.post('http://localhost:8080/academicos/login', formData);
-        const { nombre, dni } = response.data;
+        const { nombre, dni, rol } = response.data;
         alert('Hola ' + nombre + '!');
         localStorage.setItem('userName', nombre);
         localStorage.setItem('dni', dni)
+        localStorage.setItem('rol', rol)
 
         navigate('/home');
     } catch (error) {
