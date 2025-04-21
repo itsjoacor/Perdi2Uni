@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
-@DiscriminatorValue("academico")
 public class Academico extends Usuario {
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -17,7 +16,7 @@ public class Academico extends Usuario {
     }
 
     public Academico(String nombre, String correo, String dni, String contrasenia) {
-        super(nombre, correo, dni, contrasenia);
+        super(nombre, correo, dni, contrasenia, "academico");
     }
 
     public List<Publicacion> getPublicaciones() {

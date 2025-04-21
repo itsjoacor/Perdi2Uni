@@ -6,7 +6,6 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "usuario")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "rol", discriminatorType = DiscriminatorType.STRING)
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public abstract class Usuario {
 
@@ -18,15 +17,17 @@ public abstract class Usuario {
     private String correo;
     private String dni;
     private String contrasenia;
+    private String rol;
 
     public Usuario() {
     }
 
-    public Usuario(String nombre, String correo, String dni, String contrasenia) {
+    public Usuario(String nombre, String correo, String dni, String contrasenia, String rol) {
         this.nombre = nombre;
         this.correo = correo;
         this.dni = dni;
         this.contrasenia = contrasenia;
+        this.rol = rol;
     }
 
 
@@ -69,4 +70,8 @@ public abstract class Usuario {
     public void setContrasenia(String contrasenia) {
         this.contrasenia = contrasenia;
     }
+
+    public String getRol() { return rol; }
+
+    public void setRol(String rol) { this.rol = rol; }
 }
