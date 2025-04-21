@@ -5,6 +5,7 @@ import fondoLogin from '../assets/fondos/fondoLogin.jpeg';
 
 const Registro = () => {
   const navigate = useNavigate();
+  
 
   const [formDataCheck, setFormDataCheck] = useState({
     nombre: '',
@@ -50,9 +51,11 @@ const Registro = () => {
     const newFormData = { nombre, correo, dni, contrasenia };
 
     try {
+      localStorage.setItem('rol', "academico")
       await axios.post('http://localhost:8080/academicos/registro', newFormData);
       localStorage.setItem('userName', nombre);
       localStorage.setItem('dni', dni)
+      console.log(localStorage.getItem('rol'))
       alert('Usuario registrado con éxito');
       navigate('/home');
     } catch (error) {
