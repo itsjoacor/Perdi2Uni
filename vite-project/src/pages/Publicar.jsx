@@ -25,7 +25,7 @@ const Publicar = () => {
   };
 
   const validateDescripcion = (descripcion) => {
-    if (descripcion.length < 10) {
+    if (descripcion.length < 5) {
       alert("Descripción inválida");
       return false;
     }
