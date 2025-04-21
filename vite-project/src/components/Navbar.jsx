@@ -4,10 +4,13 @@ import { Link, useNavigate } from "react-router-dom";
 const Navbar = () => {
   const navigate = useNavigate();
   const userName = localStorage.getItem("userName");
+  const rol = localStorage.getItem("rol");
 
   const handleLogout = () => {
     localStorage.removeItem("isLoggedIn");
     localStorage.removeItem("userName");
+    localStorage.removeItem("dni");
+    localStorage.removeItem("rol");
     navigate("/");
   };
 
@@ -23,7 +26,7 @@ const Navbar = () => {
         </Link>
 
         {userName && (
-          <span className="px-4 whitespace-nowrap"> {userName} </span>
+          <span className="px-4 whitespace-nowrap"> {userName} - {rol} </span>
         )}
 
         <div className="px-4 whitespace-nowrap">
