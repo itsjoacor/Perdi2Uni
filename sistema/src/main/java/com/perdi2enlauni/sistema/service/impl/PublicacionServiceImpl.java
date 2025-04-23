@@ -35,10 +35,11 @@ public class PublicacionServiceImpl implements PublicacionService {
         LocalDate fecha = publicacionBody.getFecha();
         Time hora = publicacionBody.getHora();
         String dni = publicacionBody.getDni();
+        String lugarDeExtravio = publicacionBody.getLugarDeExtravio();
 
         Usuario academico = academicoService.encontrarAcademicoPorDni(dni);
 
-        Publicacion publicacion = new Publicacion(descripcion, fecha, hora, academico);
+        Publicacion publicacion = new Publicacion(descripcion, fecha, hora, academico, lugarDeExtravio);
 
         return publicacionRepository.save(publicacion);
     }

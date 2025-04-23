@@ -18,6 +18,7 @@ public class Publicacion {
     private String descripcion;
     private LocalDate fecha;
     private Time hora;
+    private String lugarDeExtravio;
 
     @ManyToOne
     @JoinColumn(name = "usuario_id", nullable = false)
@@ -30,13 +31,15 @@ public class Publicacion {
     public Publicacion() {
     }
 
-    public Publicacion(String descripcion, LocalDate fecha, Time hora, Usuario usuario) {
+    public Publicacion(String descripcion, LocalDate fecha, Time hora, Usuario usuario, String lugarDeExtravio) {
         this.descripcion = descripcion;
         this.fecha = fecha;
         this.hora = hora;
         this.usuario = usuario;
         this.estadoDePublicacion = EstadoDePublicacion.EN_BUSQUEDA;
+        this.lugarDeExtravio = lugarDeExtravio;
     }
+  
     public int getId() {
         return id;
     }
@@ -76,4 +79,9 @@ public class Publicacion {
     public void cambiarEstado(EstadoDePublicacion nuevoEstadoDePublicacion) {
         this.estadoDePublicacion = nuevoEstadoDePublicacion;
     }
+  
+    public String getLugarDeExtravio() { return lugarDeExtravio; }
+
+    public void setLugarDeExtravio(String lugarDeExtravio) { this.lugarDeExtravio = lugarDeExtravio; }
+  
 }
