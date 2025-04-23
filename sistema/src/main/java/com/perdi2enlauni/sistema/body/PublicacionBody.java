@@ -11,13 +11,15 @@ public class PublicacionBody {
     private LocalDate fecha;
     private Time hora;
     private String dni;
+    private String lugarDeExtravio;
 
     public PublicacionBody() {}
-    public PublicacionBody(String descripcion, LocalDate fecha, Time hora, String dni) {
+    public PublicacionBody(String descripcion, LocalDate fecha, Time hora, String dni, String lugarDeExtravio) {
         this.descripcion = descripcion;
         this.fecha = fecha;
         this.hora = hora;
         this.dni = dni;
+        this.lugarDeExtravio = lugarDeExtravio;
     }
 
     public String getDescripcion() {
@@ -35,4 +37,6 @@ public class PublicacionBody {
     public String getDni() {
         return dni;
     }
+
+    public String getLugarDeExtravio() { return lugarDeExtravio; }
 }
