@@ -3,10 +3,10 @@ package com.perdi2enlauni.sistema.model;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.perdi2enlauni.sistema.model.enums.EstadoDePublicacion;
 import jakarta.persistence.*;
 import java.sql.Time;
 import java.time.LocalDate;
-import java.util.Date;
 
 @Entity
 public class Publicacion {
@@ -25,6 +25,9 @@ public class Publicacion {
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     @JsonIdentityReference(alwaysAsId = true)
     private Usuario usuario;
+    @Enumerated(EnumType.STRING)
+    private EstadoDePublicacion estadoDePublicacion = EstadoDePublicacion.EN_BUSQUEDA;
+
     public Publicacion() {
     }
 
@@ -33,8 +36,10 @@ public class Publicacion {
         this.fecha = fecha;
         this.hora = hora;
         this.usuario = usuario;
+        this.estadoDePublicacion = EstadoDePublicacion.EN_BUSQUEDA;
         this.lugarDeExtravio = lugarDeExtravio;
     }
+  
     public int getId() {
         return id;
     }
@@ -71,7 +76,12 @@ public class Publicacion {
         this.usuario = usuario;
     }
 
+    public void cambiarEstado(EstadoDePublicacion nuevoEstadoDePublicacion) {
+        this.estadoDePublicacion = nuevoEstadoDePublicacion;
+    }
+  
     public String getLugarDeExtravio() { return lugarDeExtravio; }
 
     public void setLugarDeExtravio(String lugarDeExtravio) { this.lugarDeExtravio = lugarDeExtravio; }
+  
 }
