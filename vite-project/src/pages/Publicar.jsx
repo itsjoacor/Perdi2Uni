@@ -42,7 +42,7 @@ const Publicar = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const { descripcion, fecha, horario, dni } = formDataCheck;
+    const { descripcion, fecha, horario, dni, lugarDeExtravio } = formDataCheck;
 
     if (!validateDescripcion(descripcion)) {
       return;
@@ -50,7 +50,13 @@ const Publicar = () => {
 
     const formattedHora = `${horario}:00`;
 
-    const newFormData = { descripcion, fecha, hora: formattedHora, dni };
+    const newFormData = {
+      descripcion,
+      fecha,
+      hora: formattedHora,
+      dni,
+      lugarDeExtravio,
+    };
 
     try {
       await axios.post(
@@ -89,23 +95,44 @@ const Publicar = () => {
               required
               className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Fecha de pérdida
+              </label>
+              <input
+                type="date"
+                name="fecha"
+                value={formDataCheck.fecha}
+                max={new Date().toISOString().split("T")[0]}
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Horario de pérdida
+              </label>
+              <input
+                type="time"
+                name="horario"
+                value={formDataCheck.horario}
+                min="08:00"
+                max="23:00"
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+              />
+            </div>
+
             <input
-              type="date"
-              name="fecha"
-              value={formDataCheck.fecha}
-              max={new Date().toISOString().split("T")[0]}
+              type="text"
+              name="lugarDeExtravio"
+              value={formDataCheck.lugarDeExtravio}
+              placeholder="Lugar de extravío (opcional)"
               onChange={handleChange}
-              required
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
-            />
-            <input
-              type="time"
-              name="horario"
-              value={formDataCheck.horario}
-              min="08:00"
-              max="23:00"
-              onChange={handleChange}
-              required
               className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
 
