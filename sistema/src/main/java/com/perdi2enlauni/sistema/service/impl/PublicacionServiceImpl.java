@@ -1,9 +1,8 @@
 package com.perdi2enlauni.sistema.service.impl;
 
 import com.perdi2enlauni.sistema.body.PublicacionBody;
-import com.perdi2enlauni.sistema.model.Academico;
-import com.perdi2enlauni.sistema.model.Publicacion;
-import com.perdi2enlauni.sistema.model.Usuario;
+import com.perdi2enlauni.sistema.model.*;
+import com.perdi2enlauni.sistema.model.enums.EstadoDePublicacion;
 import com.perdi2enlauni.sistema.repository.PublicacionRepository;
 import com.perdi2enlauni.sistema.service.interfaces.AcademicoService;
 import com.perdi2enlauni.sistema.service.interfaces.PublicacionService;
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Time;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -47,4 +45,17 @@ public class PublicacionServiceImpl implements PublicacionService {
 
     @Override
     public List<Publicacion> getPublicacionesPorFecha(LocalDate fecha) { return publicacionRepository.findByFecha(fecha); }
+
+    @Override
+    public Publicacion cambiarEstado(int id, EstadoDePublicacion nuevoEstadoDePublicacion) {
+        Publicacion publicacion = publicacionRepository.findById(id).orElse(null);
+
+        if (publicacion == null) {
+            return null;
+        }
+
+        publicacion.cambiarEstado(nuevoEstadoDePublicacion);
+
+        return publicacionRepository.save(publicacion);
+    }
 }
