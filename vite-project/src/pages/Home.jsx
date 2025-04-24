@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
-import NavbarAdmin from "../components/NavbarAdmin"; // Import NavbarAdmin
+import NavbarAdmin from "../components/NavbarAdmin";
 import { useNavigate } from "react-router-dom";
 import fondoHome from "../assets/fondos/fondoHome.jpg";
 import axios from "axios";
@@ -8,9 +8,9 @@ import axios from "axios";
 const Home = () => {
   const userName = localStorage.getItem("userName");
   const navigate = useNavigate();
-  const userRol = localStorage.getItem("rol"); // Get user role from localStorage
+  const userRol = localStorage.getItem("rol");
   const [data, setData] = useState([]);
-  const [selectedDate, setSelectedDate] = useState(""); // Estado para la fecha seleccionada
+  const [selectedDate, setSelectedDate] = useState("");
 
   useEffect(() => {
     const url = selectedDate
@@ -20,11 +20,7 @@ const Home = () => {
     axios
       .get(url)
       .then((response) => {
-        if (selectedDate && response.data.length === 0) {
-          setData([]); // Mostrar vacío si no hay datos para la fecha
-        } else {
-          setData(response.data);
-        }
+        setData(response.data);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
@@ -38,7 +34,6 @@ const Home = () => {
     >
       {userName ? (
         <div>
-          {/* Conditional rendering of Navbar */}
           {userRol === "admin" ? <NavbarAdmin /> : <Navbar />}
 
           <div className="mt-6 flex justify-center">
@@ -50,6 +45,7 @@ const Home = () => {
               className="border rounded-md px-4 py-2"
             />
           </div>
+
           {data.length > 0 ? (
             <div className="mt-6 bg-white shadow-md rounded-lg p-6 text-gray-700 w-full max-w-5xl mx-auto overflow-x-auto">
               <div
@@ -58,14 +54,13 @@ const Home = () => {
               >
                 <table className="table-auto w-full text-center">
                   <thead className="sticky top-0 bg-blue-200">
-                    {" "}
-                    {/* Made header sticky */}
                     <tr>
                       <th className="px-6 py-4">FECHA</th>
                       <th className="px-6 py-4">NOMBRE</th>
                       <th className="px-6 py-4">CORREO</th>
                       <th className="px-6 py-4">DESCRIPCIÓN</th>
                       <th className="px-6 py-4">LUGAR DE EXTRAVÍO</th>
+                      <th className="px-6 py-4 w-52">ESTADO</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -77,11 +72,24 @@ const Home = () => {
                         <td className="px-6 py-4">{item.academico.nombre}</td>
                         <td className="px-6 py-4">{item.academico.correo}</td>
                         <td className="px-6 py-4">{item.descripcion}</td>
-                        {item.lugarDeExtravio ? (
-                          <td className="px-6 py-4">{item.lugarDeExtravio}</td>
-                        ) : (
-                          <td className="px-6 py-4">No especificado</td>
-                        )}
+                        <td className="px-6 py-4">
+                          {item.lugarDeExtravio || "No especificado"}
+                        </td>
+                        <td className="px-6 py-4">
+                          <span
+                            className={`text-white font-semibold px-3 py-1 rounded ${
+                              item.estadoDePublicacion === "EN_BUSQUEDA"
+                                ? "bg-red-500"
+                                : item.estadoDePublicacion === "ENCONTRADO"
+                                ? "bg-orange-500"
+                                : item.estadoDePublicacion === "EN_STAND_DE_OP"
+                                ? "bg-green-600"
+                                : "bg-gray-400"
+                            }`}
+                          >
+                             {item.estadoDePublicacion.replace(/_/g, " ")}
+                          </span>
+                        </td>
                       </tr>
                     ))}
                   </tbody>
