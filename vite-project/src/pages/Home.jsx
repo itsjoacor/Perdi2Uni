@@ -3,6 +3,7 @@ import Navbar from "../components/Navbar";
 import NavbarAdmin from "../components/NavbarAdmin";
 import { useNavigate } from "react-router-dom";
 import fondoHome from "../assets/fondos/fondoHome.jpg";
+import EstadoTag from "../components/EstadoTag";
 import axios from "axios";
 
 const Home = () => {
@@ -11,6 +12,25 @@ const Home = () => {
   const userRol = localStorage.getItem("rol");
   const [data, setData] = useState([]);
   const [selectedDate, setSelectedDate] = useState("");
+
+  const handleEstadoChange = async (id, nuevoEstado) => {
+    try {
+      await axios.put(`http://localhost:8080/publicaciones/${id}/estado`, nuevoEstado, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+  
+      setData((prevData) =>
+        prevData.map((item) =>
+          item.id === id ? { ...item, estadoDePublicacion: nuevoEstado } : item
+        )
+      );
+    } catch (error) {
+      console.error("Error al cambiar el estado:", error);
+    }
+  };
+  
 
   useEffect(() => {
     const url = selectedDate
@@ -76,6 +96,13 @@ const Home = () => {
                           {item.lugarDeExtravio || "No especificado"}
                         </td>
                         <td className="px-6 py-4">
+                        {userRol === "admin" ? (
+                          <EstadoTag
+                            estado={item.estadoDePublicacion}
+                            id={item.id}
+                            onChange={handleEstadoChange}
+                          />
+                        ) : (
                           <span
                             className={`text-white font-semibold px-3 py-1 rounded ${
                               item.estadoDePublicacion === "EN_BUSQUEDA"
@@ -87,9 +114,10 @@ const Home = () => {
                                 : "bg-gray-400"
                             }`}
                           >
-                             {item.estadoDePublicacion.replace(/_/g, " ")}
+                            {item.estadoDePublicacion.replace(/_/g, " ")}
                           </span>
-                        </td>
+                        )}
+                      </td>
                       </tr>
                     ))}
                   </tbody>
