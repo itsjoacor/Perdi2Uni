@@ -133,6 +133,7 @@ const Publicar = () => {
               value={formDataCheck.lugarDeExtravio}
               placeholder="Lugar de extravío (opcional)"
               onChange={handleChange}
+              maxLength={50}
               className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
 
