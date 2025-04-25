@@ -79,6 +79,10 @@ public class Publicacion {
     public void cambiarEstado(EstadoDePublicacion nuevoEstadoDePublicacion) {
         this.estadoDePublicacion = nuevoEstadoDePublicacion;
     }
+
+    public EstadoDePublicacion getEstadoDePublicacion() {
+        return estadoDePublicacion;
+    }
   
     public String getLugarDeExtravio() { return lugarDeExtravio; }
 
