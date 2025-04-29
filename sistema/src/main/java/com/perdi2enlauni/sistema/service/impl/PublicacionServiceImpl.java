@@ -58,6 +58,11 @@ public class PublicacionServiceImpl implements PublicacionService {
     }
 
     @Override
+    public List<Publicacion> publicacionesDelUsuario(String correo) {
+        return publicacionRepository.getPublicacionesDelUsuario(correo);
+    }
+
+    @Override
     public Publicacion cambiarEstado(int id, EstadoDePublicacion nuevoEstadoDePublicacion) {
         Publicacion publicacion = publicacionRepository.findById(id).orElse(null);
 

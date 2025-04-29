@@ -16,4 +16,5 @@ public interface PublicacionService {
     Publicacion cambiarEstado(int id, EstadoDePublicacion nuevoEstadoDePublicacion);
     List<Publicacion> getPublicacionesPorEstadoDePublicacion(EstadoDePublicacion estadoDePublicacion);
     List<Publicacion> findByFechaAndEstadoDePublicacion(LocalDate fecha, EstadoDePublicacion estado);
+    List<Publicacion> publicacionesDelUsuario(String correo);
 }
