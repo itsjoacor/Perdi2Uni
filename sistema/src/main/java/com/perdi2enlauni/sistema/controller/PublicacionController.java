@@ -52,6 +52,11 @@ public class PublicacionController {
         return publicacionService.findByFechaAndEstadoDePublicacion(fecha, estado);
     }
 
+    @GetMapping("/publicacionesUsuario")
+    public List<Publicacion> getPublicacionesDelUsuario(@RequestParam("correo") String correo) {
+        return publicacionService.publicacionesDelUsuario(correo);
+    }
+
     @PutMapping("/{id}/estado")
     public ResponseEntity<Publicacion> cambiarEstado(@PathVariable("id") int id,@RequestBody EstadoDePublicacion nuevoEstadoDePublicacion) {
 

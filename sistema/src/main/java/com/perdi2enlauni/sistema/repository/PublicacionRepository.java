@@ -23,4 +23,7 @@ public interface PublicacionRepository extends JpaRepository<Publicacion, Intege
 
     @Query("SELECT p FROM Publicacion p WHERE p.fecha = :fecha AND p.estadoDePublicacion = :estado")
     List<Publicacion> findByFechaAndEstadoDePublicacion(LocalDate fecha, EstadoDePublicacion estado);
+
+    @Query("SELECT p FROM Publicacion p WHERE p.usuario.correo = :correoUsuario")
+    List<Publicacion> getPublicacionesDelUsuario( String correoUsuario);
 }
