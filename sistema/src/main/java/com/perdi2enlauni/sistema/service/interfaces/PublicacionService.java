@@ -17,4 +17,5 @@ public interface PublicacionService {
     List<Publicacion> getPublicacionesPorEstadoDePublicacion(EstadoDePublicacion estadoDePublicacion);
     List<Publicacion> findByFechaAndEstadoDePublicacion(LocalDate fecha, EstadoDePublicacion estado);
     List<Publicacion> publicacionesDelUsuario(String correo);
+    void deletePublicacion(int id);
 }

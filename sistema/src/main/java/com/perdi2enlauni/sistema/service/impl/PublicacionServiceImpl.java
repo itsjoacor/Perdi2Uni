@@ -63,6 +63,11 @@ public class PublicacionServiceImpl implements PublicacionService {
     }
 
     @Override
+    public void deletePublicacion(int id) {
+        publicacionRepository.deleteById(id);
+    }
+
+    @Override
     public Publicacion cambiarEstado(int id, EstadoDePublicacion nuevoEstadoDePublicacion) {
         Publicacion publicacion = publicacionRepository.findById(id).orElse(null);
 
