@@ -36,10 +36,32 @@ const MisPublicaciones = () => {
     }
   };
 
+  const handleDelete = async (id) => {
+    try {
+      // Send DELETE request to backend to delete the post
+      await axios.delete(`http://localhost:8080/publicaciones/eliminar/${id}`);
+
+      // Refresh the list after deletion
+      setData((prevData) => prevData.filter((item) => item.id !== id));
+
+      alert("Publicación eliminada con éxito.");
+
+      // If no more data is available, show the "no posts" message
+      if (data.length === 1) {
+        setNoDataMessage("Aún no hay publicaciones para mostrar");
+      }
+    } catch (error) {
+      console.error("Error al eliminar publicación:", error);
+      alert("Error al eliminar la publicación.");
+    }
+  };
+
   useEffect(() => {
     // Make GET request and pass correo as query parameter
     axios
-      .get(`http://localhost:8080/publicaciones/publicacionesUsuario?correo=${correoDelUsuario}`)
+      .get(
+        `http://localhost:8080/publicaciones/publicacionesUsuario?correo=${correoDelUsuario}`
+      )
       .then((response) => {
         setData(response.data);
 
@@ -68,62 +90,67 @@ const MisPublicaciones = () => {
               {noDataMessage}
             </div>
           ) : (
-            <div className="mt-6 bg-white shadow-md rounded-lg p-6 text-gray-700 w-full max-w-5xl mx-auto overflow-x-auto">
-              <div
-                className="max-h-[500px] overflow-y-auto"
-                style={{ maxHeight: "300px", display: "block" }}
-              >
-                <table className="table-auto w-full text-center">
-                  <thead className="sticky top-0 bg-blue-200">
-                    <tr>
-                      <th className="px-6 py-4">FECHA</th>
-                      <th className="px-6 py-4">NOMBRE</th>
-                      <th className="px-6 py-4">CORREO</th>
-                      <th className="px-6 py-4">DESCRIPCIÓN</th>
-                      <th className="px-6 py-4">LUGAR DE EXTRAVÍO</th>
-                      <th className="px-6 py-4 w-52">ESTADO</th>
+            <div className="mt-8 bg-white shadow-md rounded-lg p-6 text-gray-700 w-full max-w-7xl mx-auto">
+              <table className="table-auto w-full text-center">
+                <thead className="sticky top-0 bg-blue-200">
+                  <tr>
+                    <th className="px-6 py-4">FECHA</th>
+                    <th className="px-6 py-4">NOMBRE</th>
+                    <th className="px-6 py-4">CORREO</th>
+                    <th className="px-6 py-4">DESCRIPCIÓN</th>
+                    <th className="px-6 py-4">LUGAR DE EXTRAVÍO</th>
+                    <th className="px-6 py-4 w-52">ESTADO</th>
+                    <th className="px-6 py-4 w-24">ACCIONES</th>{" "}
+                    {/* Add width to actions column */}
+                  </tr>
+                </thead>
+                <tbody>
+                  {data.map((item, index) => (
+                    <tr key={index} className="border-b">
+                      <td className="px-6 py-4">
+                        {new Date(item.fecha).toISOString().split("T")[0]}
+                      </td>
+                      <td className="px-6 py-4">{item.academico.nombre}</td>
+                      <td className="px-6 py-4">{item.academico.correo}</td>
+                      <td className="px-6 py-4">{item.descripcion}</td>
+                      <td className="px-6 py-4">
+                        {item.lugarDeExtravio || "No especificado"}
+                      </td>
+                      <td className="px-6 py-4">
+                        {userRol === "admin" ? (
+                          <EstadoTag
+                            estado={item.estadoDePublicacion}
+                            id={item.id}
+                            onChange={handleEstadoChange}
+                          />
+                        ) : (
+                          <span
+                            className={`text-white font-semibold px-3 py-1 rounded ${
+                              item.estadoDePublicacion === "EN_BUSQUEDA"
+                                ? "bg-red-500"
+                                : item.estadoDePublicacion === "ENCONTRADO"
+                                ? "bg-orange-500"
+                                : item.estadoDePublicacion === "EN_STAND_DE_OP"
+                                ? "bg-green-600"
+                                : "bg-gray-400"
+                            }`}
+                          >
+                            {item.estadoDePublicacion.replace(/_/g, " ")}
+                          </span>
+                        )}
+                      </td>
+                      <td className="px-6 py-4">
+                        <button
+                          onClick={() => handleDelete(item.id)} // Call handleDelete on click
+                          className="text-red-500 hover:text-red-700"
+                        >
+                          🗑️ {/* Trashcan icon */}
+                        </button>
+                      </td>
                     </tr>
-                  </thead>
-                  <tbody>
-                    {data.map((item, index) => (
-                      <tr key={index} className="border-b">
-                        <td className="px-6 py-4">
-                          {new Date(item.fecha).toISOString().split("T")[0]}
-                        </td>
-                        <td className="px-6 py-4">{item.academico.nombre}</td>
-                        <td className="px-6 py-4">{item.academico.correo}</td>
-                        <td className="px-6 py-4">{item.descripcion}</td>
-                        <td className="px-6 py-4">
-                          {item.lugarDeExtravio || "No especificado"}
-                        </td>
-                        <td className="px-6 py-4">
-                          {userRol === "admin" ? (
-                            <EstadoTag
-                              estado={item.estadoDePublicacion}
-                              id={item.id}
-                              onChange={handleEstadoChange}
-                            />
-                          ) : (
-                            <span
-                              className={`text-white font-semibold px-3 py-1 rounded ${
-                                item.estadoDePublicacion === "EN_BUSQUEDA"
-                                  ? "bg-red-500"
-                                  : item.estadoDePublicacion === "ENCONTRADO"
-                                  ? "bg-orange-500"
-                                  : item.estadoDePublicacion === "EN_STAND_DE_OP"
-                                  ? "bg-green-600"
-                                  : "bg-gray-400"
-                              }`}
-                            >
-                              {item.estadoDePublicacion.replace(/_/g, " ")}
-                            </span>
-                          )}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+                  ))}
+                </tbody>
+              </table>
             </div>
           )}
         </div>
