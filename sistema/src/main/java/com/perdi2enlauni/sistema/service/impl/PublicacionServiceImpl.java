@@ -48,6 +48,16 @@ public class PublicacionServiceImpl implements PublicacionService {
     public List<Publicacion> getPublicacionesPorFecha(LocalDate fecha) { return publicacionRepository.findByFecha(fecha); }
 
     @Override
+    public List<Publicacion> getPublicacionesPorEstadoDePublicacion(EstadoDePublicacion estadoDePublicacion) {
+        return publicacionRepository.findByEstadoDePublicacion(estadoDePublicacion);
+    }
+
+    @Override
+    public List<Publicacion> findByFechaAndEstadoDePublicacion(LocalDate fecha, EstadoDePublicacion estado) {
+        return publicacionRepository.findByFechaAndEstadoDePublicacion(fecha, estado);
+    }
+
+    @Override
     public Publicacion cambiarEstado(int id, EstadoDePublicacion nuevoEstadoDePublicacion) {
         Publicacion publicacion = publicacionRepository.findById(id).orElse(null);
 

@@ -11,16 +11,22 @@ const Home = () => {
   const navigate = useNavigate();
   const userRol = localStorage.getItem("rol");
   const [data, setData] = useState([]);
-  const [selectedDate, setSelectedDate] = useState("");
+  const [selectedDate, setSelectedDate] = useState(""); // Fecha de inicio
+  const [selectedStatus, setSelectedStatus] = useState(""); // Estado seleccionado
+  const [noDataMessage, setNoDataMessage] = useState(""); // Mensaje de no datos
 
   const handleEstadoChange = async (id, nuevoEstado) => {
     try {
-      await axios.put(`http://localhost:8080/publicaciones/${id}/estado`, nuevoEstado, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-  
+      await axios.put(
+        `http://localhost:8080/publicaciones/${id}/estado`,
+        nuevoEstado,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
       setData((prevData) =>
         prevData.map((item) =>
           item.id === id ? { ...item, estadoDePublicacion: nuevoEstado } : item
@@ -30,22 +36,47 @@ const Home = () => {
       console.error("Error al cambiar el estado:", error);
     }
   };
-  
 
   useEffect(() => {
-    const url = selectedDate
-      ? `http://localhost:8080/publicaciones/filtro?fecha=${selectedDate}`
-      : `http://localhost:8080/publicaciones/`;
+    let url = "http://localhost:8080/publicaciones/";
+
+    // Reset the noDataMessage before each request
+    setNoDataMessage("");
+
+    // Hacer solicitudes separadas según los filtros seleccionados
+    if (selectedDate && selectedStatus) {
+      // Filtro combinado (fecha y estado)
+      url = `http://localhost:8080/publicaciones/filtroCombinado?fecha=${selectedDate}&estado=${selectedStatus}`;
+    } else if (selectedDate) {
+      // Filtro solo por fecha
+      url = `http://localhost:8080/publicaciones/filtroFecha?fecha=${selectedDate}`;
+    } else if (selectedStatus) {
+      // Filtro solo por estado
+      url = `http://localhost:8080/publicaciones/filtroEstado?estado=${selectedStatus}`;
+    }
 
     axios
       .get(url)
       .then((response) => {
         setData(response.data);
+
+        // Verificar si no hay datos y mostrar el mensaje correspondiente
+        if (response.data.length === 0) {
+          if (selectedDate && !selectedStatus) {
+            setNoDataMessage("Aun no hay publicaciones para la fecha seleccionada.");
+          } else if (!selectedDate && selectedStatus) {
+            setNoDataMessage("Aun no hay publicaciones para el estado seleccionado.");
+          } else if (selectedDate && selectedStatus) {
+            setNoDataMessage("Aun no hay publicaciones para la combinacion de fecha y estado seleccionados.");
+          } else {
+            setNoDataMessage("Aún no hay publicaciones para mostrar.");
+          }
+        }
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
-  }, [selectedDate]);
+  }, [selectedDate, selectedStatus]);
 
   return (
     <div
@@ -56,7 +87,8 @@ const Home = () => {
         <div>
           {userRol === "admin" ? <NavbarAdmin /> : <Navbar />}
 
-          <div className="mt-6 flex justify-center">
+          {/* Filtros en la misma línea */}
+          <div className="mt-6 flex justify-center space-x-4">
             <input
               type="date"
               value={selectedDate}
@@ -64,9 +96,23 @@ const Home = () => {
               max={new Date().toISOString().split("T")[0]}
               className="border rounded-md px-4 py-2"
             />
+            <select
+              value={selectedStatus}
+              onChange={(e) => setSelectedStatus(e.target.value)}
+              className="border rounded-md px-4 py-2"
+            >
+              <option value="">Seleccione Estado</option>
+              <option value="EN_BUSQUEDA">En búsqueda</option>
+              <option value="ENCONTRADO">Encontrado</option>
+              <option value="EN_STAND_DE_OP">Stand de OP</option>
+            </select>
           </div>
 
-          {data.length > 0 ? (
+          {noDataMessage ? (
+            <div className="mt-6 bg-white shadow-md rounded-lg p-6 text-center text-gray-700 w-150 max-w-md mx-auto">
+              {noDataMessage}
+            </div>
+          ) : (
             <div className="mt-6 bg-white shadow-md rounded-lg p-6 text-gray-700 w-full max-w-5xl mx-auto overflow-x-auto">
               <div
                 className="max-h-[500px] overflow-y-auto"
@@ -96,37 +142,34 @@ const Home = () => {
                           {item.lugarDeExtravio || "No especificado"}
                         </td>
                         <td className="px-6 py-4">
-                        {userRol === "admin" ? (
-                          <EstadoTag
-                            estado={item.estadoDePublicacion}
-                            id={item.id}
-                            onChange={handleEstadoChange}
-                          />
-                        ) : (
-                          <span
-                            className={`text-white font-semibold px-3 py-1 rounded ${
-                              item.estadoDePublicacion === "EN_BUSQUEDA"
-                                ? "bg-red-500"
-                                : item.estadoDePublicacion === "ENCONTRADO"
-                                ? "bg-orange-500"
-                                : item.estadoDePublicacion === "EN_STAND_DE_OP"
-                                ? "bg-green-600"
-                                : "bg-gray-400"
-                            }`}
-                          >
-                            {item.estadoDePublicacion.replace(/_/g, " ")}
-                          </span>
-                        )}
-                      </td>
+                          {userRol === "admin" ? (
+                            <EstadoTag
+                              estado={item.estadoDePublicacion}
+                              id={item.id}
+                              onChange={handleEstadoChange}
+                            />
+                          ) : (
+                            <span
+                              className={`text-white font-semibold px-3 py-1 rounded ${
+                                item.estadoDePublicacion === "EN_BUSQUEDA"
+                                  ? "bg-red-500"
+                                  : item.estadoDePublicacion === "ENCONTRADO"
+                                  ? "bg-orange-500"
+                                  : item.estadoDePublicacion ===
+                                    "EN_STAND_DE_OP"
+                                  ? "bg-green-600"
+                                  : "bg-gray-400"
+                              }`}
+                            >
+                              {item.estadoDePublicacion.replace(/_/g, " ")}
+                            </span>
+                          )}
+                        </td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
               </div>
-            </div>
-          ) : (
-            <div className="mt-6 bg-white shadow-md rounded-lg p-6 text-center text-gray-700 w-150 max-w-md mx-auto">
-              Aún no hay objetos perdidos para la fecha seleccionada.
             </div>
           )}
         </div>
@@ -135,7 +178,7 @@ const Home = () => {
           <div className="bg-white bg-opacity-70 backdrop-blur-md p-10 rounded-xl shadow-xl">
             <h1 className="text-4xl font-bold text-gray-900 mb-8 text-center">
               <span className="bg-opacity-50 text-white px-3 py-1 rounded">
-                Tenés que estar loggeado para acceder a la página!
+                Tenés que estar loggeado para poder realizar una publicación!
               </span>
             </h1>
             <form className="w-full flex flex-col gap-4">

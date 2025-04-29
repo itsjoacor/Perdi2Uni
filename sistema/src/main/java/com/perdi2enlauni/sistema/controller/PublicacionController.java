@@ -31,10 +31,25 @@ public class PublicacionController {
         return publicacionService.publicar(publicacionBody);
     }
 
-    @GetMapping("/filtro")
+    @GetMapping("/filtroFecha")
     public List<Publicacion> getPublicacionesPorFecha(
             @RequestParam("fecha") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate fecha) {
         return publicacionService.getPublicacionesPorFecha(fecha);
+    }
+
+    @GetMapping("/filtroEstado")
+    public List<Publicacion> getPublicacionesPorEstado(
+            @RequestParam("estado") EstadoDePublicacion estado) {
+        System.out.println("Estado recibido: " + estado); // Para depuración
+        return publicacionService.getPublicacionesPorEstadoDePublicacion(estado);
+    }
+
+
+    @GetMapping("/filtroCombinado")
+    public List<Publicacion> getPublicacionesPorFechaYEstado(
+            @RequestParam("fecha") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate fecha,
+            @RequestParam("estado") EstadoDePublicacion estado) {
+        return publicacionService.findByFechaAndEstadoDePublicacion(fecha, estado);
     }
 
     @PutMapping("/{id}/estado")
