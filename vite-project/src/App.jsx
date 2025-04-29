@@ -6,6 +6,7 @@ import Perfil from "./pages/Perfil";
 import Publicar from "./pages/Publicar";
 import AdminUsuarios from "./pages/AdminUsuarios";
 import DardeBaja from "./pages/DarDeBaja";
+import MisPublicaciones from "./pages/MisPublicaciones";
 
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
         <Route path="/registro" element={<Registro />} />
         <Route path="/home" element={<Home />} />
         <Route path="/perfil" element={<Perfil />} />
+        <Route path="/misPublicaciones" element={<MisPublicaciones/>} />
         <Route path="/publicar" element={<Publicar />} />
         <Route path="/darDeBaja" element={<DardeBaja />} />
         <Route path="/administrar-usuarios" element={<AdminUsuarios />} />
