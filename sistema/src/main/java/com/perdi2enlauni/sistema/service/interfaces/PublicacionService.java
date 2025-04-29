@@ -14,4 +14,6 @@ public interface PublicacionService {
     Publicacion publicar(PublicacionBody publicacionBody);
     List<Publicacion> getPublicacionesPorFecha(LocalDate fecha);
     Publicacion cambiarEstado(int id, EstadoDePublicacion nuevoEstadoDePublicacion);
+    List<Publicacion> getPublicacionesPorEstadoDePublicacion(EstadoDePublicacion estadoDePublicacion);
+    List<Publicacion> findByFechaAndEstadoDePublicacion(LocalDate fecha, EstadoDePublicacion estado);
 }
