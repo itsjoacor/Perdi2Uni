@@ -7,6 +7,7 @@ import com.perdi2enlauni.sistema.service.interfaces.AcademicoService;
 import com.perdi2enlauni.sistema.service.interfaces.PublicacionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -56,6 +57,17 @@ public class PublicacionController {
     public List<Publicacion> getPublicacionesDelUsuario(@RequestParam("correo") String correo) {
         return publicacionService.publicacionesDelUsuario(correo);
     }
+
+    @DeleteMapping("/eliminar/{id}")
+    public ResponseEntity<Void> deletePublicacion(@PathVariable int id) {
+        try {
+            publicacionService.deletePublicacion(id);
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
 
     @PutMapping("/{id}/estado")
     public ResponseEntity<Publicacion> cambiarEstado(@PathVariable("id") int id,@RequestBody EstadoDePublicacion nuevoEstadoDePublicacion) {
