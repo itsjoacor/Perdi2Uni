@@ -39,7 +39,7 @@ const Navbar = () => {
               onClick={toggleDropdown}
               className="px-4 hover:underline whitespace-nowrap"
             >
-              Perfil {rol}
+              Mi Perfil
             </button>
 
             {/* Dropdown Menu */}
