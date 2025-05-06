@@ -3,11 +3,11 @@ import React, { useRef } from "react";
 const EstadoTag = ({ estado, id, onChange }) => {
   const selectRef = useRef(null);
 
-  const estados = ["EN_BUSQUEDA", "ENCONTRADO", "EN_STAND_DE_OP"];
+  const estados = ["EN_BUSQUEDA", "LOCALIZADO", "EN_STAND_DE_OP"];
 
   const colorMap = {
     EN_BUSQUEDA: "bg-red-500",
-    ENCONTRADO: "bg-orange-500",
+    LOCALIZADO: "bg-orange-500",
     EN_STAND_DE_OP: "bg-green-600",
   };
 

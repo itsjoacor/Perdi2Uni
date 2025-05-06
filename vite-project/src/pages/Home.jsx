@@ -103,7 +103,7 @@ const Home = () => {
             >
               <option value="">Seleccione Estado</option>
               <option value="EN_BUSQUEDA">En búsqueda</option>
-              <option value="ENCONTRADO">Encontrado</option>
+              <option value="LOCALIZADO">Localizado</option>
               <option value="EN_STAND_DE_OP">Stand de OP</option>
             </select>
           </div>
@@ -153,7 +153,7 @@ const Home = () => {
                               className={`text-white font-semibold px-3 py-1 rounded ${
                                 item.estadoDePublicacion === "EN_BUSQUEDA"
                                   ? "bg-red-500"
-                                  : item.estadoDePublicacion === "ENCONTRADO"
+                                  : item.estadoDePublicacion === "LOCALIZADO"
                                   ? "bg-orange-500"
                                   : item.estadoDePublicacion ===
                                     "EN_STAND_DE_OP"

@@ -2,6 +2,6 @@ package com.perdi2enlauni.sistema.model.enums;
 
 public enum EstadoDePublicacion {
     EN_BUSQUEDA,
-    ENCONTRADO,
+    LOCALIZADO,
     EN_STAND_DE_OP
 }
