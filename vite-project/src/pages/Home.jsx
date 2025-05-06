@@ -105,7 +105,7 @@ const Home = () => {
               <option value="EN_BUSQUEDA">En búsqueda</option>
               <option value="LOCALIZADO">Localizado</option>
               <option value="EN_STAND_DE_OP">Stand de OP</option>
-              <option value="RECUPERADO">Stand de OP</option>
+              <option value="RECUPERADO">Recuperado</option>
             </select>
           </div>
 
