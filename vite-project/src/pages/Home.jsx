@@ -105,6 +105,7 @@ const Home = () => {
               <option value="EN_BUSQUEDA">En búsqueda</option>
               <option value="LOCALIZADO">Localizado</option>
               <option value="EN_STAND_DE_OP">Stand de OP</option>
+              <option value="RECUPERADO">Stand de OP</option>
             </select>
           </div>
 
@@ -157,6 +158,9 @@ const Home = () => {
                                   ? "bg-orange-500"
                                   : item.estadoDePublicacion ===
                                     "EN_STAND_DE_OP"
+                                  ? "bg-violet-600"
+                                  : item.estadoDePublicacion ===
+                                    "RECUPERADO"
                                   ? "bg-green-600"
                                   : "bg-gray-400"
                               }`}
