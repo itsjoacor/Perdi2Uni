@@ -56,7 +56,6 @@ const Registro = () => {
       localStorage.setItem('userName', nombre);
       localStorage.setItem('dni', dni)
       localStorage.setItem('correo', correo)
-      console.log(localStorage.getItem('rol'))
       alert('Usuario registrado con éxito');
       navigate('/home');
     } catch (error) {

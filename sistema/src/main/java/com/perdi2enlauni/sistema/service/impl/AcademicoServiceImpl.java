@@ -80,4 +80,20 @@ public class AcademicoServiceImpl implements AcademicoService {
         }
     }
 
+    @Override
+    public List<String> correosDeAcademicosQueComiencenCon(String string) {
+        List<Academico> academicos = academicoRepository.findByCorreoStartingWith(string);
+        return academicos.stream().map(Usuario::getCorreo).toList();
+    }
+
+    @Override
+    public void eliminarAcademicoConCorreo(String string) {
+        Optional<Academico> academico = academicoRepository.findAcademicoByCorreo(string);
+        if (academico.isPresent()) {
+            academicoRepository.delete(academico.get());
+        } else {
+            throw new EncontrarException("No existe el usuario con el correo: " + string);
+        }
+    }
+
 }

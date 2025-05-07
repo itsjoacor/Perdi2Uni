@@ -31,8 +31,8 @@ const NavbarAdmin = () => {
 	  <Link to="/publicar" className="px-4 hover:underline whitespace-nowrap">
 					Publicar una pérdida
 				</Link>
-				<Link to="/darDeBaja" className="px-4 hover:underline whitespace-nowrap">
-					Modificacion usuarios
+				<Link to="/dar-de-baja" className="px-4 hover:underline whitespace-nowrap">
+					Dar de baja usuarios
 				</Link>
 
 		{userName && (
