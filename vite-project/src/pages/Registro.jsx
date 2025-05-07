@@ -56,6 +56,7 @@ const Registro = () => {
       localStorage.setItem('userName', nombre);
       localStorage.setItem('dni', dni)
       localStorage.setItem('correo', correo)
+      localStorage.setItem('contrasenia', contrasenia)
       alert('Usuario registrado con éxito');
       navigate('/home');
     } catch (error) {
