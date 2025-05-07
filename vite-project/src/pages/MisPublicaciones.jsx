@@ -138,15 +138,16 @@ const MisPublicaciones = () => {
 													/>
 												) : (
 													<span
-														className={`text-white font-semibold px-3 py-1 rounded ${
-															item.estadoDePublicacion === "EN_BUSQUEDA"
+														className={`text-white font-semibold px-3 py-1 rounded ${item.estadoDePublicacion === "EN_BUSQUEDA"
 																? "bg-red-500"
-																: item.estadoDePublicacion === "ENCONTRADO"
-																? "bg-orange-500"
-																: item.estadoDePublicacion === "EN_STAND_DE_OP"
-																? "bg-green-600"
-																: "bg-gray-400"
-														}`}
+																: item.estadoDePublicacion === "LOCALIZADO"
+																	? "bg-orange-500"
+																	: item.estadoDePublicacion === "EN_STAND_DE_OP"
+																		? "bg-violet-600"
+																		: item.estadoDePublicacion === "RECUPERADO"
+																			? "bg-green-600"
+																			: "bg-gray-400"
+															}`}
 													>
 														{item.estadoDePublicacion.replace(/_/g, " ")}
 													</span>
@@ -157,7 +158,7 @@ const MisPublicaciones = () => {
 													onClick={() => handleDeleteConfirmation(item.id)} // Show the confirmation modal
 													className="text-red-500 hover:text-red-700"
 												>
-													🗑️ 
+													🗑️
 												</button>
 											</td>
 										</tr>
