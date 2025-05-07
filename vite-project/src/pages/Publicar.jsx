@@ -143,6 +143,13 @@ const Publicar = () => {
             >
               Publicar
             </button>
+            <button
+              type="button"
+              onClick={() => navigate("/home")}
+              className="w-full bg-red-200 text-red-800 font-semibold py-2 px-4 rounded-md hover:bg-red-300 transition duration-300"
+            >
+               Volver al Inicio
+            </button>
           </form>
         </div>
       ) : (
