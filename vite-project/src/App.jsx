@@ -20,8 +20,7 @@ function App() {
         <Route path="/perfil" element={<Perfil />} />
         <Route path="/misPublicaciones" element={<MisPublicaciones/>} />
         <Route path="/publicar" element={<Publicar />} />
-        <Route path="/darDeBaja" element={<DardeBaja />} />
-        <Route path="/administrar-usuarios" element={<AdminUsuarios />} />
+        <Route path="/dar-de-baja" element={<DardeBaja />} />
 
       </Routes>
     </BrowserRouter>

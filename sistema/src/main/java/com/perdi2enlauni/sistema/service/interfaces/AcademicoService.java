@@ -22,4 +22,8 @@ public interface AcademicoService {
     Usuario encontrarPorLogin(String correo, String contrasenia);
 
     Usuario encontrarAcademicoPorCorreo(String correo);
+
+    List<String> correosDeAcademicosQueComiencenCon(String string);
+
+    void eliminarAcademicoConCorreo(String string);
 }
