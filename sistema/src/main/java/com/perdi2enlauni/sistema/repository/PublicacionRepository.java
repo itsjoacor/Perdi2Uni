@@ -26,4 +26,7 @@ public interface PublicacionRepository extends JpaRepository<Publicacion, Intege
 
     @Query("SELECT p FROM Publicacion p WHERE p.usuario.correo = :correoUsuario")
     List<Publicacion> getPublicacionesDelUsuario( String correoUsuario);
+
+    @Query("SELECT COUNT(p) FROM Publicacion p WHERE p.estadoDePublicacion = :estadoDePublicacion")
+    int cantPublicacionesEnEstado(EstadoDePublicacion estadoDePublicacion);
 }

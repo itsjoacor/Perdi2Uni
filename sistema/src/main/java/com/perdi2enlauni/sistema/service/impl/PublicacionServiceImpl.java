@@ -68,6 +68,11 @@ public class PublicacionServiceImpl implements PublicacionService {
     }
 
     @Override
+    public int cantPublicacionesRecuperadas() {
+        return publicacionRepository.cantPublicacionesEnEstado(EstadoDePublicacion.RECUPERADO);
+    }
+
+    @Override
     public Publicacion cambiarEstado(int id, EstadoDePublicacion nuevoEstadoDePublicacion) {
         Publicacion publicacion = publicacionRepository.findById(id).orElse(null);
 

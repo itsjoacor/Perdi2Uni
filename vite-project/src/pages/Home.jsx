@@ -14,6 +14,7 @@ const Home = () => {
   const [selectedDate, setSelectedDate] = useState(""); // Fecha de inicio
   const [selectedStatus, setSelectedStatus] = useState(""); // Estado seleccionado
   const [noDataMessage, setNoDataMessage] = useState(""); // Mensaje de no datos
+  const [cantPublicacionesRecuperadas, setCantPublicacionesRecuperadas] = useState(0); // Cantidad de publicaciones recuperadas
 
   const handleEstadoChange = async (id, nuevoEstado) => {
     try {
@@ -32,10 +33,29 @@ const Home = () => {
           item.id === id ? { ...item, estadoDePublicacion: nuevoEstado } : item
         )
       );
+
+      fetchCantPublicacionesRecuperadas();
+      
     } catch (error) {
       console.error("Error al cambiar el estado:", error);
     }
   };
+
+  const fetchCantPublicacionesRecuperadas = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8080/publicaciones/cantPublicacionesRecuperadas`
+      );
+      setCantPublicacionesRecuperadas(response.data);
+    } catch (error) {
+      console.error("Error fetching cantidad de publicaciones recuperadas:", error);
+    }
+  };
+
+  useEffect(() => {
+    //Actualizar la cantidad de publicaciones recuperadas
+    fetchCantPublicacionesRecuperadas();
+  }, []);
 
   useEffect(() => {
     let url = "http://localhost:8080/publicaciones/";
@@ -173,9 +193,16 @@ const Home = () => {
                     ))}
                   </tbody>
                 </table>
+
+
               </div>
             </div>
           )}
+
+          <div className="fixed bottom-4 left-4 bg-emerald-500/80 text-white px-3 py-1 rounded-lg shadow-md flex items-center gap-2">
+            <p className="font-semibold">{cantPublicacionesRecuperadas} Pertenencias ya fueron devueltas gracias a Perdi2EnLaUni</p>
+          </div>
+
         </div>
       ) : (
         <div className="flex flex-col items-center justify-center min-h-screen">

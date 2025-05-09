@@ -58,6 +58,12 @@ public class PublicacionController {
         return publicacionService.publicacionesDelUsuario(correo);
     }
 
+    @GetMapping("/cantPublicacionesRecuperadas")
+    public ResponseEntity<Integer> getCantidadPublicacionesRecuperadas() {
+        int cantidad = publicacionService.cantPublicacionesRecuperadas();
+        return ResponseEntity.ok(cantidad);
+    }
+
     @DeleteMapping("/eliminar/{id}")
     public ResponseEntity<Void> deletePublicacion(@PathVariable int id) {
         try {
