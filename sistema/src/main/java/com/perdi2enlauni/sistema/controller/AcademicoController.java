@@ -55,5 +55,17 @@ public class AcademicoController {
         }
     }
 
+    @PutMapping("/actualizar")
+    public ResponseEntity<?> actualizarAcademico(@RequestBody Academico academico) {
+        try {
+            academicoService.actualizarAcademico(academico);
+            return ResponseEntity.ok().build();
+        } catch (EncontrarException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+
+
 
 }

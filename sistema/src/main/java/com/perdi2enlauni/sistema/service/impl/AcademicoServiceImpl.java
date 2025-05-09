@@ -96,4 +96,21 @@ public class AcademicoServiceImpl implements AcademicoService {
         }
     }
 
+    @Override
+    public void actualizarAcademico(Academico academico) throws EncontrarException {
+        Optional<Usuario> academicoExistenteOpt = academicoRepository.findByCorreo(academico.getCorreo());
+
+        if (academicoExistenteOpt.isEmpty()) {
+            throw new EncontrarException("No se encontró un académico con ese correo.");
+        }
+
+        Academico academicoExistente = (Academico) academicoExistenteOpt.get();
+        academicoExistente.setNombre(academico.getNombre());
+        academicoExistente.setCorreo(academico.getCorreo());
+        academicoExistente.setDni(academico.getDni());
+
+        academicoRepository.save(academicoExistente);
+    }
+
+
 }
