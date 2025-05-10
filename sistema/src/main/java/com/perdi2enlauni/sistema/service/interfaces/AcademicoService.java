@@ -26,4 +26,6 @@ public interface AcademicoService {
     List<String> correosDeAcademicosQueComiencenCon(String string);
 
     void eliminarAcademicoConCorreo(String string);
+
+    void actualizarAcademico(Academico academico);
 }
