@@ -39,23 +39,34 @@ const Perfil = () => {
     setIsEditable(false);
   };
 
+  const validarDNI = (dni) => {
+    const dniRegex = /^\d{7,8}$/;
+    return dniRegex.test(dni);
+  };
+
   const handleSaveChanges = async () => {
+    // Validar el DNI del formulario
+    if (!validarDNI(formData.dni)) {
+      alert('Ingrese un número de DNI válido');
+      return;
+    }
+  
     const confirmUpdate = window.confirm("¿Guardar los cambios?");
     if (!confirmUpdate) return;
-
+  
     try {
       const updatedData = {
         nombre: formData.nombre,
         dni: formData.dni,
         correo: formData.correo,
       };
-
+  
       await axios.put("http://localhost:8080/academicos/actualizar", updatedData);
-
+  
       // Actualizar localStorage
       localStorage.setItem("userName", updatedData.nombre);
       localStorage.setItem("dni", updatedData.dni);
-
+  
       // Ir a Home
       navigate("/home");
     } catch (error) {
