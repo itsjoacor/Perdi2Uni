@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.perdi2enlauni.sistema.model.enums.EstadoDePublicacion;
+import com.perdi2enlauni.sistema.model.enums.Universidad;
 import jakarta.persistence.*;
 import java.sql.Time;
 import java.time.LocalDate;
@@ -28,16 +29,22 @@ public class Publicacion {
     @Enumerated(EnumType.STRING)
     private EstadoDePublicacion estadoDePublicacion = EstadoDePublicacion.EN_BUSQUEDA;
 
+    @Enumerated(EnumType.STRING)
+    private Universidad universidad;
+
+
+
     public Publicacion() {
     }
 
-    public Publicacion(String descripcion, LocalDate fecha, Time hora, Usuario usuario, String lugarDeExtravio) {
+    public Publicacion(String descripcion, LocalDate fecha, Time hora, Usuario usuario, String lugarDeExtravio, Universidad uni) {
         this.descripcion = descripcion;
         this.fecha = fecha;
         this.hora = hora;
         this.usuario = usuario;
         this.estadoDePublicacion = EstadoDePublicacion.EN_BUSQUEDA;
         this.lugarDeExtravio = lugarDeExtravio;
+        this.universidad = uni;
     }
   
     public int getId() {
@@ -87,5 +94,8 @@ public class Publicacion {
     public String getLugarDeExtravio() { return lugarDeExtravio; }
 
     public void setLugarDeExtravio(String lugarDeExtravio) { this.lugarDeExtravio = lugarDeExtravio; }
-  
+
+    public Universidad getUniversidad() {
+        return universidad;
+    }
 }
