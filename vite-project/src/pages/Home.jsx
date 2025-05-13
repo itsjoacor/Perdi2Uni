@@ -35,7 +35,7 @@ const Home = () => {
       );
 
       fetchCantPublicacionesRecuperadas();
-      
+
     } catch (error) {
       console.error("Error al cambiar el estado:", error);
     }
@@ -78,6 +78,7 @@ const Home = () => {
     axios
       .get(url)
       .then((response) => {
+        console.log("Datos recibidos:", response.data);
         setData(response.data);
 
         // Verificar si no hay datos y mostrar el mensaje correspondiente
@@ -134,7 +135,7 @@ const Home = () => {
               {noDataMessage}
             </div>
           ) : (
-            <div className="mt-6 bg-white shadow-md rounded-lg p-6 text-gray-700 w-full max-w-5xl mx-auto overflow-x-auto">
+            <div className="mt-6 bg-white shadow-md rounded-lg p-6 text-gray-700 w-full max-w-7xl mx-auto overflow-x-auto">
               <div
                 className="max-h-[500px] overflow-y-auto"
                 style={{ maxHeight: "300px", display: "block" }}
@@ -146,6 +147,7 @@ const Home = () => {
                       <th className="px-6 py-4">NOMBRE</th>
                       <th className="px-6 py-4">CORREO</th>
                       <th className="px-6 py-4">DESCRIPCIÓN</th>
+                      <th className="px-6 py-4">UNIVERSIDAD</th>
                       <th className="px-6 py-4">LUGAR DE EXTRAVÍO</th>
                       <th className="px-6 py-4 w-52">ESTADO</th>
                     </tr>
@@ -160,6 +162,15 @@ const Home = () => {
                         <td className="px-6 py-4">{item.academico.correo}</td>
                         <td className="px-6 py-4">{item.descripcion}</td>
                         <td className="px-6 py-4">
+                          {
+                            item.universidad === "UNIVERSIDAD_NACIONAL_ARTURO_JAURETCHE" ? "UNAJ" :
+                              item.universidad === "UNIVERSIDAD_NACIONAL_DE_QUILMES" ? "UNQ" :
+                                item.universidad === "UNIVERSIDAD_TECNICA_NACIONAL" ? "UTN" :
+                                    "No encontrado"
+                          }
+                        </td>
+
+                        <td className="px-6 py-4">
                           {item.lugarDeExtravio || "No especificado"}
                         </td>
                         <td className="px-6 py-4">
@@ -171,19 +182,19 @@ const Home = () => {
                             />
                           ) : (
                             <span
-                              className={`text-white font-semibold px-3 py-1 rounded ${
-                                item.estadoDePublicacion === "EN_BUSQUEDA"
-                                  ? "bg-red-500"
-                                  : item.estadoDePublicacion === "LOCALIZADO"
+                              className={`text-white font-semibold px-3 py-1 rounded ${item.estadoDePublicacion === "EN_BUSQUEDA"
+                                ? "bg-red-500"
+                                : item.estadoDePublicacion === "LOCALIZADO"
                                   ? "bg-orange-500"
                                   : item.estadoDePublicacion ===
                                     "EN_STAND_DE_OP"
-                                  ? "bg-violet-600"
-                                  : item.estadoDePublicacion ===
-                                    "RECUPERADO"
-                                  ? "bg-green-600"
-                                  : "bg-gray-400"
-                              }`}
+                                    ? "bg-violet-600"
+                                    : item.estadoDePublicacion ===
+                                      "RECUPERADO"
+                                      ? "bg-green-600"
+                                      : "bg-gray-400"
+                                }`}
+
                             >
                               {item.estadoDePublicacion.replace(/_/g, " ")}
                             </span>
