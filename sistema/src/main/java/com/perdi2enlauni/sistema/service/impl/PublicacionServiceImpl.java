@@ -3,6 +3,7 @@ package com.perdi2enlauni.sistema.service.impl;
 import com.perdi2enlauni.sistema.body.PublicacionBody;
 import com.perdi2enlauni.sistema.model.*;
 import com.perdi2enlauni.sistema.model.enums.EstadoDePublicacion;
+import com.perdi2enlauni.sistema.model.enums.Universidad;
 import com.perdi2enlauni.sistema.repository.PublicacionRepository;
 import com.perdi2enlauni.sistema.service.interfaces.AcademicoService;
 import com.perdi2enlauni.sistema.service.interfaces.PublicacionService;
@@ -36,10 +37,11 @@ public class PublicacionServiceImpl implements PublicacionService {
         Time hora = publicacionBody.getHora();
         String dni = publicacionBody.getDni();
         String lugarDeExtravio = publicacionBody.getLugarDeExtravio();
+        Universidad uni = publicacionBody.getUniversidad();
 
         Usuario academico = academicoService.encontrarAcademicoPorDni(dni);
 
-        Publicacion publicacion = new Publicacion(descripcion, fecha, hora, academico, lugarDeExtravio);
+        Publicacion publicacion = new Publicacion(descripcion, fecha, hora, academico, lugarDeExtravio, uni);
 
         return publicacionRepository.save(publicacion);
     }

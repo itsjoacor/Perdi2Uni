@@ -13,9 +13,9 @@ const Publicar = () => {
     fecha: "",
     horario: "",
     dni: dniUser,
+    lugarDeExtravio: "",
+    universidad: "",
   });
-
-  useEffect(() => {}, []);
 
   const handleChange = (e) => {
     setFormDataCheck((prev) => ({
@@ -42,7 +42,14 @@ const Publicar = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const { descripcion, fecha, horario, dni, lugarDeExtravio } = formDataCheck;
+    const {
+      descripcion,
+      fecha,
+      horario,
+      dni,
+      lugarDeExtravio,
+      universidad,
+    } = formDataCheck;
 
     if (!validateDescripcion(descripcion)) {
       return;
@@ -56,6 +63,7 @@ const Publicar = () => {
       hora: formattedHora,
       dni,
       lugarDeExtravio,
+      universidad,
     };
 
     try {
@@ -127,6 +135,30 @@ const Publicar = () => {
               />
             </div>
 
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Universidad
+              </label>
+              <select
+                name="universidad"
+                value={formDataCheck.universidad}
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+              >
+                <option value="">Seleccione una universidad</option>
+                <option value="UNIVERSIDAD_NACIONAL_DE_QUILMES">
+                  Universidad Nacional de Quilmes
+                </option>
+                <option value="UNIVERSIDAD_TECNICA_NACIONAL">
+                  Universidad Técnica Nacional
+                </option>
+                <option value="UNIVERSIDAD_NACIONAL_ARTURO_JAURETCHE">
+                  Universidad Nacional Arturo Jauretche
+                </option>
+              </select>
+            </div>
+
             <input
               type="text"
               name="lugarDeExtravio"
@@ -148,7 +180,7 @@ const Publicar = () => {
               onClick={() => navigate("/home")}
               className="w-full bg-red-200 text-red-800 font-semibold py-2 px-4 rounded-md hover:bg-red-300 transition duration-300"
             >
-               Volver al Inicio
+              Volver al Inicio
             </button>
           </form>
         </div>
