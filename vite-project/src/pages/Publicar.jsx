@@ -93,6 +93,9 @@ const Publicar = () => {
           <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">
             Realizar publicación
           </h2>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Descripción
+          </label>
           <form onSubmit={handleSubmit} className="space-y-4">
             <input
               type="text"
@@ -105,7 +108,7 @@ const Publicar = () => {
             />
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-700">
                 Fecha de pérdida
               </label>
               <input
@@ -120,7 +123,7 @@ const Publicar = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-700">
                 Horario de pérdida
               </label>
               <input
@@ -136,7 +139,7 @@ const Publicar = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-700">
                 Universidad
               </label>
               <select
@@ -158,16 +161,22 @@ const Publicar = () => {
                 </option>
               </select>
             </div>
+            <div className="mb-4 pb-6">
+              <label className="block text-sm font-medium text-gray-700">
+                Lugar
+              </label>
+              <input
+                type="text"
+                name="lugarDeExtravio"
+                value={formDataCheck.lugarDeExtravio}
+                placeholder="Lugar de extravío (opcional)"
+                onChange={handleChange}
+                maxLength={50}
+                className="w-full mt-1 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+              />
+            </div>
 
-            <input
-              type="text"
-              name="lugarDeExtravio"
-              value={formDataCheck.lugarDeExtravio}
-              placeholder="Lugar de extravío (opcional)"
-              onChange={handleChange}
-              maxLength={50}
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
-            />
+
 
             <button
               type="submit"
