@@ -3,6 +3,7 @@ package com.perdi2enlauni.sistema.service.interfaces;
 import com.perdi2enlauni.sistema.body.PublicacionBody;
 import com.perdi2enlauni.sistema.model.enums.EstadoDePublicacion;
 import com.perdi2enlauni.sistema.model.Publicacion;
+import com.perdi2enlauni.sistema.model.enums.Universidad;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -27,4 +28,14 @@ public interface PublicacionService {
     void deletePublicacion(int id);
 
     int cantPublicacionesRecuperadas();
+
+    List<Publicacion> findByUniversidad(Universidad universidad);
+
+    List<Publicacion> findByFechaAndUniversidad(LocalDate fecha, Universidad universidad);
+
+    List<Publicacion> findByEstadoAndUniversidad(EstadoDePublicacion estado, Universidad universidad);
+
+    List<Publicacion> findByFechaAndEstadoAndUniversidad(LocalDate fecha, EstadoDePublicacion estado, Universidad universidad);
+
+
 }

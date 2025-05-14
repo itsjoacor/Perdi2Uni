@@ -86,4 +86,27 @@ public class PublicacionServiceImpl implements PublicacionService {
 
         return publicacionRepository.save(publicacion);
     }
+
+    @Override
+    public List<Publicacion> findByUniversidad(Universidad universidad) {
+        return publicacionRepository.findByUniversidad(universidad);
+    }
+
+    @Override
+    public List<Publicacion> findByFechaAndUniversidad(LocalDate fecha, Universidad universidad) {
+        return publicacionRepository.findByFechaAndUniversidad(fecha, universidad);
+    }
+
+    @Override
+    public List<Publicacion> findByEstadoAndUniversidad(EstadoDePublicacion estado, Universidad universidad) {
+        return publicacionRepository.findByEstadoAndUniversidad(estado, universidad);
+    }
+
+    @Override
+    public List<Publicacion> findByFechaAndEstadoAndUniversidad(LocalDate fecha, EstadoDePublicacion estado, Universidad universidad) {
+        return publicacionRepository.findByFechaAndEstadoAndUniversidad(fecha, estado, universidad);
+    }
+
+
+
 }

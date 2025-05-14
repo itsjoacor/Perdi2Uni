@@ -3,6 +3,7 @@ package com.perdi2enlauni.sistema.controller;
 import com.perdi2enlauni.sistema.body.PublicacionBody;
 import com.perdi2enlauni.sistema.model.enums.EstadoDePublicacion;
 import com.perdi2enlauni.sistema.model.Publicacion;
+import com.perdi2enlauni.sistema.model.enums.Universidad;
 import com.perdi2enlauni.sistema.service.interfaces.AcademicoService;
 import com.perdi2enlauni.sistema.service.interfaces.PublicacionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +45,36 @@ public class PublicacionController {
         System.out.println("Estado recibido: " + estado); // Para depuración
         return publicacionService.getPublicacionesPorEstadoDePublicacion(estado);
     }
+    @GetMapping("/filtroUniversidad")
+    public List<Publicacion> getPublicacionesPorUniversidad(@RequestParam("universidad") Universidad universidad) {
+        return publicacionService.findByUniversidad(universidad);
+    }
+
+
+    @GetMapping("/filtroFechaYUni")
+    public List<Publicacion> getPublicacionesPorFechaYUniversidad(
+            @RequestParam("fecha") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate fecha,
+            @RequestParam("universidad") Universidad universidad) {
+        return publicacionService.findByFechaAndUniversidad(fecha, universidad);
+    }
+
+
+    @GetMapping("/filtroEstadoYUni")
+    public List<Publicacion> getPublicacionesPorEstadoYUniversidad(
+            @RequestParam("estado") EstadoDePublicacion estado,
+            @RequestParam("universidad") Universidad universidad) {
+        return publicacionService.findByEstadoAndUniversidad(estado, universidad);
+    }
+
+
+    @GetMapping("/filtroCombinadoConUniversidad")
+    public List<Publicacion> getPublicacionesPorFechaEstadoYUniversidad(
+            @RequestParam("fecha") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate fecha,
+            @RequestParam("estado") EstadoDePublicacion estado,
+            @RequestParam("universidad") Universidad universidad) {
+        return publicacionService.findByFechaAndEstadoAndUniversidad(fecha, estado, universidad);
+    }
+
 
 
     @GetMapping("/filtroCombinado")
