@@ -13,6 +13,7 @@ const Home = () => {
   const [data, setData] = useState([]);
   const [selectedDate, setSelectedDate] = useState(""); // Fecha de inicio
   const [selectedStatus, setSelectedStatus] = useState(""); // Estado seleccionado
+  const [selectedUni, setSelectedUni] = useState(""); // Universidad seleccionada
   const [noDataMessage, setNoDataMessage] = useState(""); // Mensaje de no datos
   const [cantPublicacionesRecuperadas, setCantPublicacionesRecuperadas] = useState(0); // Cantidad de publicaciones recuperadas
 
@@ -63,18 +64,31 @@ const Home = () => {
     // Reset the noDataMessage before each request
     setNoDataMessage("");
 
-    // Hacer solicitudes separadas según los filtros seleccionados
-    if (selectedDate && selectedStatus) {
+    // Apply combinations of filters
+    if (selectedDate && selectedStatus && selectedUni) {
+      // Filtro combinado (fecha, estado y universidad)
+      url = `http://localhost:8080/publicaciones/filtroCombinadoConUniversidad?fecha=${selectedDate}&estado=${selectedStatus}&universidad=${selectedUni}`;
+    } else if (selectedDate && selectedStatus) {
       // Filtro combinado (fecha y estado)
       url = `http://localhost:8080/publicaciones/filtroCombinado?fecha=${selectedDate}&estado=${selectedStatus}`;
+    } else if (selectedDate && selectedUni) {
+      // Filtro combinado (fecha y universidad)
+      url = `http://localhost:8080/publicaciones/filtroFechaYUni?fecha=${selectedDate}&universidad=${selectedUni}`;
+    } else if (selectedStatus && selectedUni) {
+      // Filtro combinado (estado y universidad)
+      url = `http://localhost:8080/publicaciones/filtroEstadoYUni?estado=${selectedStatus}&universidad=${selectedUni}`;
     } else if (selectedDate) {
       // Filtro solo por fecha
       url = `http://localhost:8080/publicaciones/filtroFecha?fecha=${selectedDate}`;
     } else if (selectedStatus) {
       // Filtro solo por estado
       url = `http://localhost:8080/publicaciones/filtroEstado?estado=${selectedStatus}`;
+    } else if (selectedUni) {
+      // Filtro solo por universidad
+      url = `http://localhost:8080/publicaciones/filtroUniversidad?universidad=${selectedUni}`;
     }
 
+    // Make the API request
     axios
       .get(url)
       .then((response) => {
@@ -83,21 +97,33 @@ const Home = () => {
 
         // Verificar si no hay datos y mostrar el mensaje correspondiente
         if (response.data.length === 0) {
-          if (selectedDate && !selectedStatus) {
-            setNoDataMessage("Aun no hay publicaciones para la fecha seleccionada.");
-          } else if (!selectedDate && selectedStatus) {
-            setNoDataMessage("Aun no hay publicaciones para el estado seleccionado.");
-          } else if (selectedDate && selectedStatus) {
-            setNoDataMessage("Aun no hay publicaciones para la combinacion de fecha y estado seleccionados.");
+          if (selectedDate && !selectedStatus && !selectedUni) {
+            setNoDataMessage("Aún no hay publicaciones para la fecha seleccionada.");
+          } else if (!selectedDate && selectedStatus && !selectedUni) {
+            setNoDataMessage("Aún no hay publicaciones para el estado seleccionado.");
+          } else if (!selectedDate && !selectedStatus && selectedUni) {
+            setNoDataMessage("Aún no hay publicaciones para la universidad seleccionada.");
+          } else if (selectedDate && selectedStatus && !selectedUni) {
+            setNoDataMessage("Aún no hay publicaciones para la combinación de fecha y estado seleccionados.");
+          } else if (selectedDate && !selectedStatus && selectedUni) {
+            setNoDataMessage("Aún no hay publicaciones para la combinación de fecha y universidad seleccionadas.");
+          } else if (!selectedDate && selectedStatus && selectedUni) {
+            setNoDataMessage("Aún no hay publicaciones para la combinación de estado y universidad seleccionadas.");
+          } else if (selectedDate && selectedStatus && selectedUni) {
+            setNoDataMessage("Aún no hay publicaciones para la combinación de fecha, estado y universidad seleccionados.");
           } else {
             setNoDataMessage("Aún no hay publicaciones para mostrar.");
           }
         }
+
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
-  }, [selectedDate, selectedStatus]);
+  }, [selectedDate, selectedStatus, selectedUni]);
+
+
+
 
   return (
     <div
@@ -127,6 +153,17 @@ const Home = () => {
               <option value="LOCALIZADO">Localizado</option>
               <option value="EN_STAND_DE_OP">Stand de OP</option>
               <option value="RECUPERADO">Recuperado</option>
+            </select>
+            <select
+              value={selectedUni}
+              onChange={(e) => setSelectedUni(e.target.value)}
+              className="border rounded-md px-4 py-2"
+            >
+              <option value="">Seleccione Universidad</option>
+              <option value="UNIVERSIDAD_NACIONAL_ARTURO_JAURETCHE">UNAJ</option>
+              <option value="UNIVERSIDAD_NACIONAL_DE_QUILMES">UNQ</option>
+              <option value="UNIVERSIDAD_TECNICA_NACIONAL">UTN</option>
+
             </select>
           </div>
 
@@ -166,7 +203,7 @@ const Home = () => {
                             item.universidad === "UNIVERSIDAD_NACIONAL_ARTURO_JAURETCHE" ? "UNAJ" :
                               item.universidad === "UNIVERSIDAD_NACIONAL_DE_QUILMES" ? "UNQ" :
                                 item.universidad === "UNIVERSIDAD_TECNICA_NACIONAL" ? "UTN" :
-                                    "No encontrado"
+                                  "No encontrado"
                           }
                         </td>
 
@@ -194,7 +231,6 @@ const Home = () => {
                                       ? "bg-green-600"
                                       : "bg-gray-400"
                                 }`}
-
                             >
                               {item.estadoDePublicacion.replace(/_/g, " ")}
                             </span>
@@ -204,8 +240,6 @@ const Home = () => {
                     ))}
                   </tbody>
                 </table>
-
-
               </div>
             </div>
           )}
