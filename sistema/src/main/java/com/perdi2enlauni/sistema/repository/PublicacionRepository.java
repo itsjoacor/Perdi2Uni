@@ -3,6 +3,7 @@ package com.perdi2enlauni.sistema.repository;
 import com.perdi2enlauni.sistema.model.Academico;
 import com.perdi2enlauni.sistema.model.Publicacion;
 import com.perdi2enlauni.sistema.model.enums.EstadoDePublicacion;
+import com.perdi2enlauni.sistema.model.enums.Universidad;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -29,4 +30,18 @@ public interface PublicacionRepository extends JpaRepository<Publicacion, Intege
 
     @Query("SELECT COUNT(p) FROM Publicacion p WHERE p.estadoDePublicacion = :estadoDePublicacion")
     int cantPublicacionesEnEstado(EstadoDePublicacion estadoDePublicacion);
+
+    @Query("SELECT p FROM Publicacion p WHERE p.universidad = :universidad")
+    List<Publicacion> findByUniversidad(@Param("universidad") Universidad universidad);
+
+    @Query("SELECT p FROM Publicacion p WHERE p.fecha = :fecha AND p.universidad = :universidad")
+    List<Publicacion> findByFechaAndUniversidad(@Param("fecha") LocalDate fecha, @Param("universidad") Universidad universidad);
+
+    @Query("SELECT p FROM Publicacion p WHERE p.estadoDePublicacion = :estado AND p.universidad = :universidad")
+    List<Publicacion> findByEstadoAndUniversidad(@Param("estado") EstadoDePublicacion estado, @Param("universidad") Universidad universidad);
+
+    @Query("SELECT p FROM Publicacion p WHERE p.fecha = :fecha AND p.estadoDePublicacion = :estado AND p.universidad = :universidad")
+    List<Publicacion> findByFechaAndEstadoAndUniversidad(@Param("fecha") LocalDate fecha, @Param("estado") EstadoDePublicacion estado, @Param("universidad") Universidad universidad);
+
+
 }
