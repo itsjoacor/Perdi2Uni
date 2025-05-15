@@ -15,7 +15,12 @@ const Home = () => {
   const [selectedStatus, setSelectedStatus] = useState(""); // Estado seleccionado
   const [selectedUni, setSelectedUni] = useState(""); // Universidad seleccionada
   const [noDataMessage, setNoDataMessage] = useState(""); // Mensaje de no datos
-  const [cantPublicacionesRecuperadas, setCantPublicacionesRecuperadas] = useState(0); // Cantidad de publicaciones recuperadas
+  const [cantPublicacionesRecuperadas, setCantPublicacionesRecuperadas] =
+    useState(0); // Cantidad de publicaciones recuperadas
+
+  // Estados para modal de eliminación
+  const [showModal, setShowModal] = useState(false);
+  const [postToDelete, setPostToDelete] = useState(null);
 
   const handleEstadoChange = async (id, nuevoEstado) => {
     try {
@@ -36,7 +41,6 @@ const Home = () => {
       );
 
       fetchCantPublicacionesRecuperadas();
-
     } catch (error) {
       console.error("Error al cambiar el estado:", error);
     }
@@ -49,81 +53,115 @@ const Home = () => {
       );
       setCantPublicacionesRecuperadas(response.data);
     } catch (error) {
-      console.error("Error fetching cantidad de publicaciones recuperadas:", error);
+      console.error(
+        "Error fetching cantidad de publicaciones recuperadas:",
+        error
+      );
     }
   };
 
+  // Función para abrir modal y guardar id a eliminar
+  const handleDeleteConfirmation = (id) => {
+    setPostToDelete(id);
+    setShowModal(true);
+  };
+
+  // Función para confirmar eliminación
+  const handleDelete = async () => {
+    try {
+      await axios.delete(
+        `http://localhost:8080/publicaciones/eliminar/${postToDelete}`
+      );
+      setData((prevData) =>
+        prevData.filter((item) => item.id !== postToDelete)
+      );
+      setShowModal(false);
+      alert("Publicación eliminada con éxito.");
+
+      if (data.length === 1) {
+        setNoDataMessage("Aún no hay publicaciones para mostrar.");
+      }
+
+      fetchCantPublicacionesRecuperadas();
+    } catch (error) {
+      console.error("Error al eliminar la publicación:", error);
+      alert("Error al eliminar la publicación.");
+    }
+  };
+
+  // Cancelar cierre modal
+  const handleModalClose = () => {
+    setShowModal(false);
+  };
+
   useEffect(() => {
-    //Actualizar la cantidad de publicaciones recuperadas
     fetchCantPublicacionesRecuperadas();
   }, []);
 
   useEffect(() => {
     let url = "http://localhost:8080/publicaciones/";
 
-    // Reset the noDataMessage before each request
     setNoDataMessage("");
 
-    // Apply combinations of filters
     if (selectedDate && selectedStatus && selectedUni) {
-      // Filtro combinado (fecha, estado y universidad)
       url = `http://localhost:8080/publicaciones/filtroCombinadoConUniversidad?fecha=${selectedDate}&estado=${selectedStatus}&universidad=${selectedUni}`;
     } else if (selectedDate && selectedStatus) {
-      // Filtro combinado (fecha y estado)
       url = `http://localhost:8080/publicaciones/filtroCombinado?fecha=${selectedDate}&estado=${selectedStatus}`;
     } else if (selectedDate && selectedUni) {
-      // Filtro combinado (fecha y universidad)
       url = `http://localhost:8080/publicaciones/filtroFechaYUni?fecha=${selectedDate}&universidad=${selectedUni}`;
     } else if (selectedStatus && selectedUni) {
-      // Filtro combinado (estado y universidad)
       url = `http://localhost:8080/publicaciones/filtroEstadoYUni?estado=${selectedStatus}&universidad=${selectedUni}`;
     } else if (selectedDate) {
-      // Filtro solo por fecha
       url = `http://localhost:8080/publicaciones/filtroFecha?fecha=${selectedDate}`;
     } else if (selectedStatus) {
-      // Filtro solo por estado
       url = `http://localhost:8080/publicaciones/filtroEstado?estado=${selectedStatus}`;
     } else if (selectedUni) {
-      // Filtro solo por universidad
       url = `http://localhost:8080/publicaciones/filtroUniversidad?universidad=${selectedUni}`;
     }
 
-    // Make the API request
     axios
       .get(url)
       .then((response) => {
-        console.log("Datos recibidos:", response.data);
         setData(response.data);
 
-        // Verificar si no hay datos y mostrar el mensaje correspondiente
         if (response.data.length === 0) {
           if (selectedDate && !selectedStatus && !selectedUni) {
-            setNoDataMessage("Aún no hay publicaciones para la fecha seleccionada.");
+            setNoDataMessage(
+              "Aún no hay publicaciones para la fecha seleccionada."
+            );
           } else if (!selectedDate && selectedStatus && !selectedUni) {
-            setNoDataMessage("Aún no hay publicaciones para el estado seleccionado.");
+            setNoDataMessage(
+              "Aún no hay publicaciones para el estado seleccionado."
+            );
           } else if (!selectedDate && !selectedStatus && selectedUni) {
-            setNoDataMessage("Aún no hay publicaciones para la universidad seleccionada.");
+            setNoDataMessage(
+              "Aún no hay publicaciones para la universidad seleccionada."
+            );
           } else if (selectedDate && selectedStatus && !selectedUni) {
-            setNoDataMessage("Aún no hay publicaciones para la combinación de fecha y estado seleccionados.");
+            setNoDataMessage(
+              "Aún no hay publicaciones para la combinación de fecha y estado seleccionados."
+            );
           } else if (selectedDate && !selectedStatus && selectedUni) {
-            setNoDataMessage("Aún no hay publicaciones para la combinación de fecha y universidad seleccionadas.");
+            setNoDataMessage(
+              "Aún no hay publicaciones para la combinación de fecha y universidad seleccionadas."
+            );
           } else if (!selectedDate && selectedStatus && selectedUni) {
-            setNoDataMessage("Aún no hay publicaciones para la combinación de estado y universidad seleccionadas.");
+            setNoDataMessage(
+              "Aún no hay publicaciones para la combinación de estado y universidad seleccionadas."
+            );
           } else if (selectedDate && selectedStatus && selectedUni) {
-            setNoDataMessage("Aún no hay publicaciones para la combinación de fecha, estado y universidad seleccionados.");
+            setNoDataMessage(
+              "Aún no hay publicaciones para la combinación de fecha, estado y universidad seleccionados."
+            );
           } else {
             setNoDataMessage("Aún no hay publicaciones para mostrar.");
           }
         }
-
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
   }, [selectedDate, selectedStatus, selectedUni]);
-
-
-
 
   return (
     <div
@@ -160,10 +198,11 @@ const Home = () => {
               className="border rounded-md px-4 py-2"
             >
               <option value="">Seleccione Universidad</option>
-              <option value="UNIVERSIDAD_NACIONAL_ARTURO_JAURETCHE">UNAJ</option>
+              <option value="UNIVERSIDAD_NACIONAL_ARTURO_JAURETCHE">
+                UNAJ
+              </option>
               <option value="UNIVERSIDAD_NACIONAL_DE_QUILMES">UNQ</option>
               <option value="UNIVERSIDAD_TECNICA_NACIONAL">UTN</option>
-
             </select>
           </div>
 
@@ -187,6 +226,9 @@ const Home = () => {
                       <th className="px-6 py-4">UNIVERSIDAD</th>
                       <th className="px-6 py-4">LUGAR DE EXTRAVÍO</th>
                       <th className="px-6 py-4 w-52">ESTADO</th>
+                      {userRol === "admin" && (
+                        <th className="px-6 py-4 w-24">ACCION</th>
+                      )}
                     </tr>
                   </thead>
                   <tbody>
@@ -199,14 +241,17 @@ const Home = () => {
                         <td className="px-6 py-4">{item.academico.correo}</td>
                         <td className="px-6 py-4">{item.descripcion}</td>
                         <td className="px-6 py-4">
-                          {
-                            item.universidad === "UNIVERSIDAD_NACIONAL_ARTURO_JAURETCHE" ? "UNAJ" :
-                              item.universidad === "UNIVERSIDAD_NACIONAL_DE_QUILMES" ? "UNQ" :
-                                item.universidad === "UNIVERSIDAD_TECNICA_NACIONAL" ? "UTN" :
-                                  "No encontrado"
-                          }
+                          {item.universidad ===
+                          "UNIVERSIDAD_NACIONAL_ARTURO_JAURETCHE"
+                            ? "UNAJ"
+                            : item.universidad ===
+                              "UNIVERSIDAD_NACIONAL_DE_QUILMES"
+                            ? "UNQ"
+                            : item.universidad ===
+                              "UNIVERSIDAD_TECNICA_NACIONAL"
+                            ? "UTN"
+                            : "No encontrado"}
                         </td>
-
                         <td className="px-6 py-4">
                           {item.lugarDeExtravio || "No especificado"}
                         </td>
@@ -219,23 +264,40 @@ const Home = () => {
                             />
                           ) : (
                             <span
-                              className={`text-white font-semibold px-3 py-1 rounded ${item.estadoDePublicacion === "EN_BUSQUEDA"
-                                ? "bg-red-500"
-                                : item.estadoDePublicacion === "LOCALIZADO"
+                              className={`text-white font-semibold px-3 py-1 rounded ${
+                                item.estadoDePublicacion === "EN_BUSQUEDA"
+                                  ? "bg-red-500"
+                                  : item.estadoDePublicacion === "LOCALIZADO"
                                   ? "bg-orange-500"
                                   : item.estadoDePublicacion ===
                                     "EN_STAND_DE_OP"
-                                    ? "bg-violet-600"
-                                    : item.estadoDePublicacion ===
-                                      "RECUPERADO"
-                                      ? "bg-green-600"
-                                      : "bg-gray-400"
-                                }`}
+                                  ? "bg-violet-600"
+                                  : item.estadoDePublicacion === "RECUPERADO"
+                                  ? "bg-green-600"
+                                  : "bg-gray-400"
+                              }`}
                             >
                               {item.estadoDePublicacion.replace(/_/g, " ")}
                             </span>
                           )}
                         </td>
+                        {userRol === "admin" && (
+                          <td className="px-6 py-4 text-center cursor-pointer">
+                            <button
+                              onClick={() => handleDeleteConfirmation(item.id)}
+                              aria-label="Eliminar publicación"
+                              className="text-red-600 hover:text-red-800 focus:outline-none transition-colors duration-200"
+                              title="Eliminar publicación"
+                            >
+                              🗑️
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5-4h4m-4 0a1 1 0 00-1 1v1h6V4a1 1 0 00-1-1m-4 0h4"
+                              />
+                            </button>
+                          </td>
+                        )}
                       </tr>
                     ))}
                   </tbody>
@@ -245,9 +307,37 @@ const Home = () => {
           )}
 
           <div className="fixed bottom-4 left-4 bg-emerald-500/80 text-white px-3 py-1 rounded-lg shadow-md flex items-center gap-2">
-            <p className="font-semibold">{cantPublicacionesRecuperadas} Pertenencias ya fueron devueltas gracias a Perdi2EnLaUni</p>
+            <p className="font-semibold">
+              {cantPublicacionesRecuperadas} Pertenencias ya fueron devueltas
+              gracias a Perdi2EnLaUni
+            </p>
           </div>
 
+          {/* Modal de confirmación de eliminación */}
+          {showModal && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+              <div className="bg-white p-8 rounded-lg shadow-xl w-96">
+                <h2 className="text-2xl font-semibold mb-4">
+                  Confirmar Eliminación
+                </h2>
+                <p>¿Estás seguro de que deseas eliminar esta publicación?</p>
+                <div className="mt-4 flex justify-between">
+                  <button
+                    onClick={handleDelete}
+                    className="bg-red-500 text-white py-2 px-4 rounded-md"
+                  >
+                    Confirmar
+                  </button>
+                  <button
+                    onClick={handleModalClose}
+                    className="bg-gray-500 text-white py-2 px-4 rounded-md"
+                  >
+                    Cancelar
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       ) : (
         <div className="flex flex-col items-center justify-center min-h-screen">
@@ -259,7 +349,7 @@ const Home = () => {
             </h1>
             <form className="w-full flex flex-col gap-4">
               <button
-                type="submit"
+                type="button"
                 className="bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition duration-200"
                 onClick={() => navigate("/")}
               >
