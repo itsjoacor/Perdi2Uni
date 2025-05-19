@@ -94,7 +94,7 @@ const Navbar = () => {
 
             {/* Dropdown Menu */}
             {isDropdownOpen && (
-              <ul className="absolute right-0 mt-2 w-40 bg-white text-black rounded-lg shadow-lg">
+              <ul className="absolute z-[9999] right-0 mt-2 w-40 bg-white text-black rounded-lg shadow-lg">
                 <li>
                   <Link
                     to="/perfil"
