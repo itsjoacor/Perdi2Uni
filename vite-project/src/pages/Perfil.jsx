@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import fondoLogin from "../assets/fondos/fondoLogin.jpeg";
+import Info from "../components/Info";
 
 const Perfil = () => {
   const navigate = useNavigate();
+  const [info, setInfo] = useState(false);
 
   const userName = localStorage.getItem("userName");
   const correo = localStorage.getItem("correo");
@@ -47,7 +49,7 @@ const Perfil = () => {
   const handleSaveChanges = async () => {
     // Validar el DNI del formulario
     if (!validarDNI(formData.dni)) {
-      alert('Ingrese un número de DNI válido');
+      setInfo(true);
       return;
     }
   
@@ -148,6 +150,13 @@ const Perfil = () => {
           )}
         </div>
       </div>
+      {info && (
+        <Info
+          texto="El DNI debe tener entre 7 y 8 dígitos."
+          rutaDestino="/perfil"
+          setInfo={setInfo}
+        />
+      )}
     </div>
   );
 };

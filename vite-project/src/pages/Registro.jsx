@@ -2,9 +2,14 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import fondoLogin from '../assets/fondos/fondoLogin.jpeg';
+import Info from "../components/Info";
 
 const Registro = () => {
   const navigate = useNavigate();
+
+  const [info, setInfo] = useState(false);
+  const [infoTexto, setInfoTexto] = useState("");
+  const [infoNavigate, setInfoNavigate] = useState("/registro");
   
 
   const [formDataCheck, setFormDataCheck] = useState({
@@ -34,17 +39,20 @@ const Registro = () => {
     const { nombre, correo, repetirCorreo, dni, contrasenia, repetirContrasenia } = formDataCheck;
 
     if (correo !== repetirCorreo) {
-      alert('Los correos no coinciden');
+      setInfoTexto("Los correos no coinciden");
+      setInfo(true);
       return;
     }
 
     if (contrasenia !== repetirContrasenia) {
-      alert('Las contraseñas no coinciden');
+      setInfoTexto("Las contraseñas no coinciden");
+      setInfo(true);
       return;
     }
 
     if (!validarDNI(dni)) {
-      alert('Ingrese un número de DNI válido');
+      setInfoTexto("Ingrese un número de DNI válido");
+      setInfo(true);
       return;
     }
 
@@ -57,8 +65,9 @@ const Registro = () => {
       localStorage.setItem('dni', dni)
       localStorage.setItem('correo', correo)
       localStorage.setItem('contrasenia', contrasenia)
-      alert('Usuario registrado con éxito');
-      navigate('/home');
+      setInfoTexto("Usuario registrado con éxito");
+      setInfoNavigate("/home");
+      setInfo(true);
     } catch (error) {
       console.error('Error al registrar:', error);
       if (error.response && error.response.data) {
@@ -141,6 +150,7 @@ const Registro = () => {
           </button>
         </form>
       </div>
+      {info && <Info texto={infoTexto} rutaDestino={infoNavigate} setInfo={setInfo} />}
     </div>
   );
 };

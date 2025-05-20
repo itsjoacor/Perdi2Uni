@@ -2,11 +2,14 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import fondoLogin from "../assets/fondos/fondoLogin.jpeg";
+import Info from "../components/Info";
 
 const Publicar = () => {
   const navigate = useNavigate();
   const userName = localStorage.getItem("userName");
   const dniUser = localStorage.getItem("dni") || "";
+  const [info, setInfo] = useState(false);
+  const [infoTexto, setInfoTexto] = useState("");
 
   const [formDataCheck, setFormDataCheck] = useState({
     descripcion: "",
@@ -26,13 +29,15 @@ const Publicar = () => {
 
   const validateDescripcion = (descripcion) => {
     if (descripcion.length < 3) {
-      alert("Descripción inválida");
+      setInfoTexto("Descripción inválida");
+      setInfo(true);
       return false;
     }
 
     const numberRegex = /^[0-9]+$/;
     if (numberRegex.test(descripcion)) {
-      alert("Descripción inválida");
+      setInfoTexto("Descripción inválida");
+      setInfo(true);
       return false;
     }
 
@@ -71,8 +76,8 @@ const Publicar = () => {
         "http://localhost:8080/publicaciones/publicar",
         newFormData
       );
-      alert("Publicación realizada correctamente");
-      navigate("/home");
+      setInfoTexto("Publicación realizada correctamente");
+      setInfo(true);
     } catch (error) {
       console.error("Error al publicar", error);
       if (error.response && error.response.data) {
@@ -213,6 +218,7 @@ const Publicar = () => {
           </div>
         </div>
       )}
+      {info && <Info texto={infoTexto} rutaDestino="/home" setInfo={setInfo} />}
     </div>
   );
 };

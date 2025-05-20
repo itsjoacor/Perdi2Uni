@@ -2,9 +2,12 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import fondoLogin from '../assets/fondos/fondoLogin.jpeg';
+import Info from '../components/Info';
 
 const Login = () => {
   const navigate = useNavigate();
+
+  const [info, setInfo] = useState(false);
 
   const [formData, setFormData] = useState({
     correo: '',
@@ -23,14 +26,12 @@ const Login = () => {
     try {
         const response = await axios.post('http://localhost:8080/academicos/login', formData);
         const { nombre, dni, rol, correo, contrasenia } = response.data;
-        alert('Hola ' + nombre + '!');
         localStorage.setItem('userName', nombre);
         localStorage.setItem('dni', dni)
         localStorage.setItem('rol', rol)
         localStorage.setItem('correo', correo)
         localStorage.setItem('contrasenia', contrasenia)
-
-        navigate('/home');
+        setInfo(true);
     } catch (error) {
       console.error('Error al iniciar sesión:', error);
 
@@ -96,6 +97,9 @@ const Login = () => {
           </button>
         </div>
       </div>
+
+    {info && <Info texto={`Bienvenido ${localStorage.getItem('userName')}!`} rutaDestino="/home" setInfo={setInfo}/>}
+
     </div>
   );
 };

@@ -4,12 +4,14 @@ import NavbarAdmin from "../components/NavbarAdmin";
 import { useNavigate } from "react-router-dom";
 import fondoHome from "../assets/fondos/fondoHome.jpg";
 import EstadoTag from "../components/EstadoTag";
+import Info from "../components/Info"
 import axios from "axios";
 
 const Home = () => {
   const userName = localStorage.getItem("userName");
   const navigate = useNavigate();
   const userRol = localStorage.getItem("rol");
+  const [info, setInfo] = useState(false);
   const [data, setData] = useState([]);
   const [selectedDate, setSelectedDate] = useState(""); // Fecha de inicio
   const [selectedStatus, setSelectedStatus] = useState(""); // Estado seleccionado
@@ -76,7 +78,7 @@ const Home = () => {
         prevData.filter((item) => item.id !== postToDelete)
       );
       setShowModal(false);
-      alert("Publicación eliminada con éxito.");
+      setInfo(true);
 
       if (data.length === 1) {
         setNoDataMessage("Aún no hay publicaciones para mostrar.");
@@ -359,6 +361,7 @@ const Home = () => {
           </div>
         </div>
       )}
+      {info && <Info texto={"Publicación eliminada correctamente"} rutaDestino="/home" setInfo={setInfo} />}
     </div>
   );
 };

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import Info from "./Info";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -8,6 +9,7 @@ const Navbar = () => {
   const [showConfirm, setShowConfirm] = useState(false);
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [info, setInfo] = useState(false);
 
   // State to manage dropdown visibility
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -31,14 +33,13 @@ const Navbar = () => {
     if (password === localStorage.getItem("contrasenia")) {
       const correo = localStorage.getItem("correo");
       await axios.delete(`http://localhost:8080/academicos/${correo}`);
-      alert("El usuario fue dado de baja correctamente.");
       localStorage.removeItem("isLoggedIn");
       localStorage.removeItem("userName");
       localStorage.removeItem("dni");
       localStorage.removeItem("rol");
       localStorage.removeItem("correo");
       localStorage.removeItem("contrasenia");
-      navigate("/");
+      setInfo(true)
     } else {
       setError("Contraseña incorrecta.");
     }
@@ -172,6 +173,7 @@ const Navbar = () => {
           </div>
         </div>
       )}
+      {info && <Info texto={"El usuario ha sido eliminado correctamente"} rutaDestino="/home" setInfo={setInfo}/>}
     </div>
   );
 };

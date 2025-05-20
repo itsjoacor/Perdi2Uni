@@ -4,12 +4,14 @@ import NavbarAdmin from "../components/NavbarAdmin";
 import { useNavigate } from "react-router-dom";
 import fondoHome from "../assets/fondos/fondoHome.jpg";
 import EstadoTag from "../components/EstadoTag";
+import Info from "../components/Info";
 import axios from "axios";
 
 const MisPublicaciones = () => {
 	const userName = localStorage.getItem("userName");
 	const navigate = useNavigate();
 	const userRol = localStorage.getItem("rol");
+	const [info, setInfo] = useState(false);
 	const [data, setData] = useState([]);
 	const [noDataMessage, setNoDataMessage] = useState(""); // Message when no data is available
 	const correoDelUsuario = localStorage.getItem("correo"); // Get the correo from localStorage
@@ -56,12 +58,12 @@ const MisPublicaciones = () => {
 			);
 
 			setShowModal(false); // Close modal
-			alert("Publicación eliminada con éxito.");
-
+			
 			// If no more data is available, show the "no posts" message
 			if (data.length === 1) {
 				setNoDataMessage("Aún no hay publicaciones para mostrar");
 			}
+			setInfo(true);
 		} catch (error) {
 			console.error("Error al eliminar publicación:", error);
 			alert("Error al eliminar la publicación.");
@@ -213,6 +215,7 @@ const MisPublicaciones = () => {
 					</div>
 				</div>
 			)}
+		{info && <Info texto={"Publicación eliminada correctamente"} rutaDestino="/misPublicaciones" setInfo={setInfo} />}
 		</div>
 	);
 };

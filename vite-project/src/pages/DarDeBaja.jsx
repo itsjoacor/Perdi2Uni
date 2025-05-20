@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import fondoLogin from "../assets/fondos/fondoLogin.jpeg";
 import NavbarAdmin from "../components/NavbarAdmin";
+import Info from "../components/Info";
 import axios from "axios";
 
 const DardeBaja = () => {
@@ -9,6 +10,8 @@ const DardeBaja = () => {
       const [formData, setFormData] = useState("");
       const userName = localStorage.getItem("userName");
       const [sugerencias, setSugerencias] = useState([]);
+      const [info, setInfo] = useState(false);
+      const [infoTexto, setInfoTexto] = useState("");
       const navigate = useNavigate();
   
       useEffect(() => {
@@ -37,15 +40,17 @@ const DardeBaja = () => {
   
       const darDeBajaUsuario = async (correo) => {
           if (correo.trim() === "") {
-              alert("Por favor, ingrese un correo electrónico.");
+              setInfoTexto("No se puede dar de baja un usuario sin correo.");
+              setInfo(true);
               return;
           }
   
           else {
               try {
                   await axios.delete(`http://localhost:8080/academicos/${formData}`);
-                  alert("El usuario fue dado de baja correctamente.");
                   setFormData("");
+                  setInfoTexto("El usuario fue dado de baja correctamente.");
+                  setInfo(true);
               } catch(error) {
                   if (error.response && error.response.data) {
                       alert(error.response.data);
@@ -119,6 +124,7 @@ const DardeBaja = () => {
                 </div>
               </div>
             )}
+            {info && <Info texto={infoTexto} rutaDestino="/home" setInfo={setInfo}/>}
           </div>
   );
 };
