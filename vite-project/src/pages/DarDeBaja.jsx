@@ -12,6 +12,7 @@ const DardeBaja = () => {
       const [sugerencias, setSugerencias] = useState([]);
       const [info, setInfo] = useState(false);
       const [infoTexto, setInfoTexto] = useState("");
+      const [infoNavigate, setInfoNavigate] = useState("/dar-de-baja");
       const navigate = useNavigate();
   
       useEffect(() => {
@@ -50,6 +51,7 @@ const DardeBaja = () => {
                   await axios.delete(`http://localhost:8080/academicos/${formData}`);
                   setFormData("");
                   setInfoTexto("El usuario fue dado de baja correctamente.");
+                  setInfoNavigate("/home");
                   setInfo(true);
               } catch(error) {
                   if (error.response && error.response.data) {
@@ -124,7 +126,7 @@ const DardeBaja = () => {
                 </div>
               </div>
             )}
-            {info && <Info texto={infoTexto} rutaDestino="/home" setInfo={setInfo}/>}
+            {info && <Info texto={infoTexto} rutaDestino={infoNavigate} setInfo={setInfo}/>}
           </div>
   );
 };

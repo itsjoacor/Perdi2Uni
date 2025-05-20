@@ -10,6 +10,7 @@ const Publicar = () => {
   const dniUser = localStorage.getItem("dni") || "";
   const [info, setInfo] = useState(false);
   const [infoTexto, setInfoTexto] = useState("");
+  const [infoNavigate, setInfoNavigate] = useState("/publicar");
 
   const [formDataCheck, setFormDataCheck] = useState({
     descripcion: "",
@@ -77,6 +78,7 @@ const Publicar = () => {
         newFormData
       );
       setInfoTexto("Publicación realizada correctamente");
+      setInfoNavigate("/home");
       setInfo(true);
     } catch (error) {
       console.error("Error al publicar", error);
@@ -218,7 +220,7 @@ const Publicar = () => {
           </div>
         </div>
       )}
-      {info && <Info texto={infoTexto} rutaDestino="/home" setInfo={setInfo} />}
+      {info && <Info texto={infoTexto} rutaDestino={infoNavigate} setInfo={setInfo} />}
     </div>
   );
 };
