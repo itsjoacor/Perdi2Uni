@@ -4,7 +4,8 @@ import NavbarAdmin from "../components/NavbarAdmin";
 import { useNavigate } from "react-router-dom";
 import fondoHome from "../assets/fondos/fondoHome.jpg";
 import EstadoTag from "../components/EstadoTag";
-import Info from "../components/Info"
+import Info from "../components/Info";
+import Warning from "../components/Warning";
 import axios from "axios";
 
 const Home = () => {
@@ -12,6 +13,7 @@ const Home = () => {
   const navigate = useNavigate();
   const userRol = localStorage.getItem("rol");
   const [info, setInfo] = useState(false);
+  const [warning, setWarning] = useState(false);
   const [data, setData] = useState([]);
   const [selectedDate, setSelectedDate] = useState(""); // Fecha de inicio
   const [selectedStatus, setSelectedStatus] = useState(""); // Estado seleccionado
@@ -65,7 +67,7 @@ const Home = () => {
   // Función para abrir modal y guardar id a eliminar
   const handleDeleteConfirmation = (id) => {
     setPostToDelete(id);
-    setShowModal(true);
+    setWarning(true);
   };
 
   // Función para confirmar eliminación
@@ -305,6 +307,9 @@ const Home = () => {
                   </tbody>
                 </table>
               </div>
+              {warning && <Warning 	texto="¿Estás seguro que querés eliminar esta publicación?"
+                                    handleAccion={() => handleDelete()}
+                                    setWarning={setWarning} />}
             </div>
           )}
 

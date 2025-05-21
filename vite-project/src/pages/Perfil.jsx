@@ -3,10 +3,12 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import fondoLogin from "../assets/fondos/fondoLogin.jpeg";
 import Info from "../components/Info";
+import Warning from "../components/Warning";
 
 const Perfil = () => {
   const navigate = useNavigate();
   const [info, setInfo] = useState(false);
+  const [warning, setWarning] = useState(false);
 
   const userName = localStorage.getItem("userName");
   const correo = localStorage.getItem("correo");
@@ -52,9 +54,6 @@ const Perfil = () => {
       setInfo(true);
       return;
     }
-  
-    const confirmUpdate = window.confirm("¿Guardar los cambios?");
-    if (!confirmUpdate) return;
   
     try {
       const updatedData = {
@@ -134,7 +133,7 @@ const Perfil = () => {
             <>
               <button
                 type="button"
-                onClick={handleSaveChanges}
+                onClick={() => setWarning(true)}
                 className="w-full bg-green-600 text-white font-semibold py-2 px-4 rounded-md hover:bg-green-700 transition duration-300 mb-2"
               >
                 Guardar Cambios
@@ -146,6 +145,13 @@ const Perfil = () => {
               >
                 Volver al perfil
               </button>
+              {warning && (
+                <Warning
+                  texto="¿Estás seguro que querés guardar los cambios?"
+                  handleAccion={() => handleSaveChanges()}
+                  setWarning={setWarning}
+                />
+              )}
             </>
           )}
         </div>

@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import fondoHome from "../assets/fondos/fondoHome.jpg";
 import EstadoTag from "../components/EstadoTag";
 import Info from "../components/Info";
+import Warning from "../components/Warning";
 import axios from "axios";
 
 const MisPublicaciones = () => {
@@ -12,10 +13,10 @@ const MisPublicaciones = () => {
 	const navigate = useNavigate();
 	const userRol = localStorage.getItem("rol");
 	const [info, setInfo] = useState(false);
+	const [warning, setWarning] = useState(false);
 	const [data, setData] = useState([]);
 	const [noDataMessage, setNoDataMessage] = useState(""); // Message when no data is available
 	const correoDelUsuario = localStorage.getItem("correo"); // Get the correo from localStorage
-	const [showModal, setShowModal] = useState(false); // Modal visibility state
 	const [postToDelete, setPostToDelete] = useState(null); // Store post ID for deletion
 
 	const handleEstadoChange = async (id, nuevoEstado) => {
@@ -41,8 +42,8 @@ const MisPublicaciones = () => {
 	};
 
 	const handleDeleteConfirmation = (id) => {
-		setPostToDelete(id); // Store post ID to delete
-		setShowModal(true); // Show confirmation modal
+		setPostToDelete(id);
+		setWarning(true);
 	};
 
 	const handleDelete = async () => {
@@ -56,8 +57,6 @@ const MisPublicaciones = () => {
 			setData((prevData) =>
 				prevData.filter((item) => item.id !== postToDelete)
 			);
-
-			setShowModal(false); // Close modal
 			
 			// If no more data is available, show the "no posts" message
 			if (data.length === 1) {
@@ -68,10 +67,6 @@ const MisPublicaciones = () => {
 			console.error("Error al eliminar publicación:", error);
 			alert("Error al eliminar la publicación.");
 		}
-	};
-
-	const handleModalClose = () => {
-		setShowModal(false); // Close the modal without any action
 	};
 
 	useEffect(() => {
@@ -169,31 +164,9 @@ const MisPublicaciones = () => {
 							</table>
 						</div>
 					)}
-
-					{showModal && (
-						<div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-							<div className="bg-white p-8 rounded-lg shadow-xl w-96">
-								<h2 className="text-2xl font-semibold mb-4">
-									Confirmar Eliminación
-								</h2>
-								<p>¿Estás seguro de que deseas eliminar esta publicación?</p>
-								<div className="mt-4 flex justify-between">
-									<button
-										onClick={handleDelete}
-										className="bg-red-500 text-white py-2 px-4 rounded-md"
-									>
-										Confirmar
-									</button>
-									<button
-										onClick={handleModalClose}
-										className="bg-gray-500 text-white py-2 px-4 rounded-md"
-									>
-										Cancelar
-									</button>
-								</div>
-							</div>
-						</div>
-					)}
+					{warning && <Warning 	texto="¿Estás seguro que querés eliminar esta publicación?"
+											handleAccion={handleDelete}
+											setWarning={setWarning} />}
 				</div>
 			) : (
 				<div className="flex flex-col items-center justify-center min-h-screen">

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import fondoLogin from "../assets/fondos/fondoLogin.jpeg";
 import NavbarAdmin from "../components/NavbarAdmin";
 import Info from "../components/Info";
+import Warning from "../components/Warning";
 import axios from "axios";
 
 const DardeBaja = () => {
@@ -11,6 +12,7 @@ const DardeBaja = () => {
       const userName = localStorage.getItem("userName");
       const [sugerencias, setSugerencias] = useState([]);
       const [info, setInfo] = useState(false);
+      const [warning, setWarning] = useState(false);
       const [infoTexto, setInfoTexto] = useState("");
       const [infoNavigate, setInfoNavigate] = useState("/dar-de-baja");
       const navigate = useNavigate();
@@ -98,12 +100,13 @@ const DardeBaja = () => {
                             )}
                         <button
                         type="button"
-                        onClick={() => darDeBajaUsuario(formData)}
+                        onClick={() => setWarning(true)}
                         className="w-full bg-red-200 text-red-800 font-semibold py-2 px-4 rounded-md hover:bg-red-300 transition duration-300"
                         >
                         Dar de baja
                         </button>
                     </form>
+                    {warning && <Warning texto="¿Estás seguro que deseas dar de baja al usuario?" handleAccion={() => darDeBajaUsuario(formData)} setWarning={setWarning}/>}
                 </div>
               </div>
             ) : (
