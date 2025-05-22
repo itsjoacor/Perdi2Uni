@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import user from "../assets/user.png";
+import deleteUser from "../assets/delete-user.png";
+import post from "../assets/post.png";
 
 const NavbarAdmin = () => {
   const navigate = useNavigate();
@@ -45,13 +48,15 @@ const NavbarAdmin = () => {
         <h1 className="text-2xl font-bold whitespace-nowrap">Perdi2EnLaUni</h1>
       </nav>
 
-	  <div className="flex items-center divide-x divide-white">
-	  <Link to="/publicar" className="px-4 hover:underline whitespace-nowrap">
-					Publicar una pérdida
-				</Link>
-				<Link to="/dar-de-baja" className="px-4 hover:underline whitespace-nowrap">
-					Dar de baja usuarios
-				</Link>
+	  <div className="flex items-center">
+
+	    <Link to="/publicar" className="px-4 hover:underline whitespace-nowrap">
+			<img src={post} alt="Publicar" className="inline-block w-7 h-7" />
+		</Link>
+
+		<Link to="/dar-de-baja" className="px-4 hover:underline whitespace-nowrap">
+			<img src={deleteUser} alt="Dar de baja usuarios" className="inline-block w-7 h-7" />
+		</Link>
 
 		{userName && (
 		  <div className="relative">
@@ -60,7 +65,7 @@ const NavbarAdmin = () => {
 			  onClick={toggleDropdown}
 			  className="px-4 hover:underline whitespace-nowrap"
 			>
-			  Mi Perfil
+			  <img src={user} alt="Mi perfil" className="inline-block w-7 h-7" />
 			</button>
 
 			{/* Dropdown Menu */}
