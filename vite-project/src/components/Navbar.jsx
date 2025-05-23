@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import user from "../assets/user.png";
+import post from "../assets/post.png";
 import Info from "./Info";
 
 const Navbar = () => {
@@ -75,12 +77,10 @@ const Navbar = () => {
       </nav>
 
       {/* Contenedor derecho con división vertical */}
-      <div className="text-xl ml-auto flex space-x-1 divide-x divide-white">
-        <Link
-          to="/publicar"
-          className="pr-4 hover:underline whitespace-nowrap"
-        >
-          Publicar una pérdida
+      <div className="text-xl ml-auto flex space-x-1">
+
+        <Link to="/publicar" className="px-4 hover:underline whitespace-nowrap">
+              <img src={post} alt="Publicar" className="inline-block w-7 h-7" />
         </Link>
 
         {userName && (
@@ -90,7 +90,7 @@ const Navbar = () => {
               onClick={toggleDropdown}
               className="px-4 hover:underline whitespace-nowrap"
             >
-              Mi Perfil
+              <img src={user} alt="Mi perfil" className="inline-block w-7 h-7" />
             </button>
 
             {/* Dropdown Menu */}
