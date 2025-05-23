@@ -7,6 +7,7 @@ import Publicar from "./pages/Publicar";
 import AdminUsuarios from "./pages/AdminUsuarios";
 import DardeBaja from "./pages/DarDeBaja";
 import MisPublicaciones from "./pages/MisPublicaciones";
+import Recuperar from "./pages/Recuperar";
 
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
         <Route path="/misPublicaciones" element={<MisPublicaciones/>} />
         <Route path="/publicar" element={<Publicar />} />
         <Route path="/dar-de-baja" element={<DardeBaja />} />
+        <Route path="/recuperar" element={<Recuperar />} />
 
       </Routes>
     </BrowserRouter>
