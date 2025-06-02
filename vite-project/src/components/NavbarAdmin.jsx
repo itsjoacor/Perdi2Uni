@@ -49,6 +49,9 @@ const NavbarAdmin = () => {
       </nav>
 
 	  <div className="flex items-center">
+		<p className="mx-5 text-xl whitespace-nowrap text-blue-200">
+          {localStorage.getItem("userName")}
+        </p>
 
 	    <Link to="/publicar" className="px-4 hover:underline whitespace-nowrap">
 			<img src={post} alt="Publicar" className="inline-block w-7 h-7" />

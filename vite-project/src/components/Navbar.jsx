@@ -41,7 +41,7 @@ const Navbar = () => {
       localStorage.removeItem("rol");
       localStorage.removeItem("correo");
       localStorage.removeItem("contrasenia");
-      setInfo(true)
+      setInfo(true);
     } else {
       setError("Contraseña incorrecta.");
     }
@@ -71,7 +71,9 @@ const Navbar = () => {
         </svg>
       </Link>
 
-      <p className="mx-5 text-xl italic whitespace-nowrap text-blue-200">¡Contactanos en perdi2enlauni@gmail.com!</p>
+      <p className="mx-5 text-xl italic whitespace-nowrap text-blue-200">
+        ¡Contactanos en perdi2enlauni@gmail.com!
+      </p>
 
       {/* Logo centrado */}
       <nav className="absolute left-1/2 transform -translate-x-1/2">
@@ -80,9 +82,12 @@ const Navbar = () => {
 
       {/* Contenedor derecho con división vertical */}
       <div className="text-xl ml-auto flex space-x-1">
+        <p className="mx-5 text-xl whitespace-nowrap text-blue-200">
+          {localStorage.getItem("userName")}
+        </p>
 
         <Link to="/publicar" className="px-4 hover:underline whitespace-nowrap">
-              <img src={post} alt="Publicar" className="inline-block w-7 h-7" />
+          <img src={post} alt="Publicar" className="inline-block w-7 h-7" />
         </Link>
 
         {userName && (
@@ -92,7 +97,11 @@ const Navbar = () => {
               onClick={toggleDropdown}
               className="px-4 hover:underline whitespace-nowrap"
             >
-              <img src={user} alt="Mi perfil" className="inline-block w-7 h-7" />
+              <img
+                src={user}
+                alt="Mi perfil"
+                className="inline-block w-7 h-7"
+              />
             </button>
 
             {/* Dropdown Menu */}
@@ -175,7 +184,13 @@ const Navbar = () => {
           </div>
         </div>
       )}
-      {info && <Info texto={"El usuario ha sido eliminado correctamente"} rutaDestino="/home" setInfo={setInfo}/>}
+      {info && (
+        <Info
+          texto={"El usuario ha sido eliminado correctamente"}
+          rutaDestino="/home"
+          setInfo={setInfo}
+        />
+      )}
     </div>
   );
 };
