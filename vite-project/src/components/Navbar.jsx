@@ -71,6 +71,8 @@ const Navbar = () => {
         </svg>
       </Link>
 
+      <p className="mx-5 text-xl italic whitespace-nowrap text-blue-200">¡Contactanos en perdi2enlauni@gmail.com!</p>
+
       {/* Logo centrado */}
       <nav className="absolute left-1/2 transform -translate-x-1/2">
         <h1 className="text-2xl font-bold whitespace-nowrap">Perdi2EnLaUni</h1>
